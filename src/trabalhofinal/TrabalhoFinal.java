@@ -1,28 +1,35 @@
 package trabalhofinal;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.ListModel;
 
 /**
  * @author nayfr
  */
 public class TrabalhoFinal {
     
-    ArrayList<Pessoa> alunos = new ArrayList<>();
-    ArrayList<Pessoa> funcionarios = new ArrayList<>();
-    ArrayList<Pessoa> professores = new ArrayList<>();
+    static ArrayList<Pessoa> alunos = new ArrayList<>();
+    static ArrayList<Pessoa> funcionarios = new ArrayList<>();
+    static ArrayList<Pessoa> professores = new ArrayList<>();
     
-    ArrayList<Exemplar> exemplares = new ArrayList<>();
-    ArrayList<Emprestimo> emprestimos = new ArrayList<>();
+    static ArrayList<Exemplar> exemplares = new ArrayList<>();
+    static ArrayList<Emprestimo> emprestimos = new ArrayList<>();
     
     static String[] op2 = {"Adicionar", "Listar", "Atualizar", "Excluir", "Voltar"};
     
-    public static void main(String[] args) {
+    public static void main(String[] args)  {
         
         menuPrincipal();
     }
     
-    public static void menuPrincipal(){
+    public static void menuPrincipal() {
         
         String[] op1 = {"Ver Cadastros", "Ver Emprestimos", "Ver Exemplares"};
         
@@ -44,7 +51,7 @@ public class TrabalhoFinal {
         }
     }
     
-    public static void menuCadastro(){
+    public static void menuCadastro() {
         String[] op3 = {"Aluno(a)", "Professor(a)", "Funcionario(a)", "Voltar"};
         
         int selected2 = JOptionPane.showOptionDialog(null, "Qual você deseja cadastrar?", "Cadastros", 
@@ -69,7 +76,7 @@ public class TrabalhoFinal {
         }
     }
     
-    public static void menuEmprestimo(){        
+    public static void menuEmprestimo() {        
         
         int selected3 = JOptionPane.showOptionDialog(null, "O que deseja fazer a respeito de empréstimos?", "Empréstimos",
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, op2, op2[0]);
@@ -97,7 +104,7 @@ public class TrabalhoFinal {
         }
     }
     
-    public static void menuExemplar(){
+    public static void menuExemplar() {
         
         int selected4 = JOptionPane.showOptionDialog(null, "O que deseja fazer a respeito de exemplares?", "Exemplares", 
                     JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, op2, op2[0]);
@@ -125,34 +132,51 @@ public class TrabalhoFinal {
         }
     }    
     
-    public static void menuAluno(){
+    public static void menuAluno() {
         int selected5 = JOptionPane.showOptionDialog(null, "O que deseja fazer a respeito de alunos?", "Alunos", 
                     JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, op2, op2[0]);
         
+        
         switch(selected5){
-            case 0:
+            case 0: /*ADICIONA ALUNO*/
+                
+                int cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF"));               
+                String nome = JOptionPane.showInputDialog("Informe o Nome");
+                String email = JOptionPane.showInputDialog("Informe o E-mail");
+                int tel = Integer.parseInt(JOptionPane.showInputDialog("Informe o Telefone"));
+                String matricula = JOptionPane.showInputDialog("Informe a Matrícula");
+                String curso = JOptionPane.showInputDialog("Informe curso em que está matriculado");
+                String dataNasc = JOptionPane.showInputDialog("Informe a data de nascimento");   
+                
+                Pessoa aluno = new Aluno(matricula, curso, dataNasc,cpf, nome, email, tel);
+                
+                alunos.add(aluno);
+                
+                menuAluno();
+            break;
+
+            
+            case 1: /*LISTA ALUNOS*/
+                for(Pessoa a : alunos){
+                    System.out.println("Nome: " + a.getNome());
+                }
+            break;
+            
+            case 2: /*ATUALIZA ALUNO*/
                 
             break;
             
-            case 1:
+            case 3: /*EXCLUI ALUNO*/
                 
             break;
             
-            case 2:
-                
-            break;
-            
-            case 3:
-                
-            break;
-            
-            case 4:
+            case 4: /*VOLTA*/
                 menuPrincipal();
             break;
         }
     }
     
-    public static void menuProfessor(){
+    public static void menuProfessor() {
         int selected6 = JOptionPane.showOptionDialog(null, "O que deseja fazer a respeito de alunos?", "Alunos", 
                     JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, op2, op2[0]);
         
@@ -179,7 +203,7 @@ public class TrabalhoFinal {
         }
     }
     
-    public static void menuFuncionario(){
+    public static void menuFuncionario() {
         int selected7 = JOptionPane.showOptionDialog(null, "O que deseja fazer a respeito de alunos?", "Alunos", 
                     JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, op2, op2[0]);
         
