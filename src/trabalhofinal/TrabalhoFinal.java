@@ -15,7 +15,7 @@ import javax.swing.ListModel;
  */
 public class TrabalhoFinal {
     
-    static ArrayList<Pessoa> alunos = new ArrayList<>();
+    static ArrayList<Aluno> alunos = new ArrayList<>();
     static ArrayList<Pessoa> funcionarios = new ArrayList<>();
     static ArrayList<Pessoa> professores = new ArrayList<>();
     
@@ -148,7 +148,7 @@ public class TrabalhoFinal {
                 String curso = JOptionPane.showInputDialog("Informe curso em que está matriculado");
                 String dataNasc = JOptionPane.showInputDialog("Informe a data de nascimento");   
                 
-                Pessoa aluno = new Aluno(matricula, curso, dataNasc,cpf, nome, email, tel);
+                Aluno aluno = new Aluno(matricula, curso, dataNasc,cpf, nome, email, tel);
                 
                 alunos.add(aluno);
                 
@@ -157,29 +157,60 @@ public class TrabalhoFinal {
 
             
             case 1: /*LISTA ALUNOS*/
-                for(Pessoa a : alunos){
+                for(Aluno a : alunos){
+                    System.out.println("CPF: " + a.getCpf());
                     System.out.println("Nome: " + a.getNome());
+                    System.out.println("*********************");
                 }
-                
+                System.out.println("-----------------------------");
                 menuAluno();
             break;
             
             case 2: /*ATUALIZA ALUNO*/
-                Pessoa buscada = new Aluno();
-                cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF buscado")); 
-                for(Pessoa a : alunos){
+                Aluno buscado = new Aluno();
+                cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF buscado"));
+                
+                for(Aluno a : alunos){
                     if(a.getCpf() == cpf){
-                        buscada = a;
+                        buscado = a;
+                        System.out.println("Registro com esse CPF: ");
                         System.out.println("Nome: " + a.getNome());
                     }
                 }
                 
+                cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF", buscado.getCpf()));               
+                nome = JOptionPane.showInputDialog("Informe o Nome", buscado.getNome());
+                email = JOptionPane.showInputDialog("Informe o E-mail", buscado.getEmail());
+                tel = Integer.parseInt(JOptionPane.showInputDialog("Informe o Telefone", buscado.getTelefone()));
+                matricula = JOptionPane.showInputDialog("Informe a Matrícula", buscado.getMatricula());
+                curso = JOptionPane.showInputDialog("Informe curso em que está matriculado", buscado.getCurso());
+                dataNasc = JOptionPane.showInputDialog("Informe a data de nascimento", buscado.getDataNasc());   
                 
+                alunos.remove(buscado);
+                Aluno alunoAtualizado = new Aluno(matricula, curso, dataNasc,cpf, nome, email, tel);
                 
+                alunos.add(alunoAtualizado);
                 menuAluno();
             break;
             
             case 3: /*EXCLUI ALUNO*/
+                boolean achado = false;
+                Aluno excluido = new Aluno();
+                
+                cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF buscado")); 
+                
+                for(Aluno a : alunos){
+                    if(a.getCpf() == cpf){
+                        excluido = a;
+                        System.out.println("Nome: " + a.getNome());
+                        achado = true;
+                    }
+                }
+                
+                if(achado){
+                    alunos.remove(excluido);
+                }
+                
                 menuAluno();
             break;
             

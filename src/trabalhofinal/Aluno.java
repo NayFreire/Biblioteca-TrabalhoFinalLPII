@@ -43,5 +43,52 @@ public class Aluno extends Pessoa{
     public void setDataNasc(String dataNasc) {
         this.dataNasc = dataNasc;
     }
+
+    @Override
+    public void bemVindo() {
+        super.bemVindo(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setTelefone(long telefone) {
+        super.setTelefone(telefone); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public long getTelefone() {
+        return super.getTelefone(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setEmail(String email) {
+        super.setEmail(email); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getEmail() {
+        return super.getEmail(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setNome(String nome) {
+        super.setNome(nome); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public String getNome() {
+        return super.getNome(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void setCpf(int cpf) {
+        super.setCpf(cpf); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public int getCpf() {
+        return super.getCpf(); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
     
 }
