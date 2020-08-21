@@ -160,14 +160,27 @@ public class TrabalhoFinal {
                 for(Pessoa a : alunos){
                     System.out.println("Nome: " + a.getNome());
                 }
+                
+                menuAluno();
             break;
             
             case 2: /*ATUALIZA ALUNO*/
+                Pessoa buscada = new Aluno();
+                cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF buscado")); 
+                for(Pessoa a : alunos){
+                    if(a.getCpf() == cpf){
+                        buscada = a;
+                        System.out.println("Nome: " + a.getNome());
+                    }
+                }
                 
+                
+                
+                menuAluno();
             break;
             
             case 3: /*EXCLUI ALUNO*/
-                
+                menuAluno();
             break;
             
             case 4: /*VOLTA*/
