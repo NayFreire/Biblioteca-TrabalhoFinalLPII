@@ -8,7 +8,7 @@ import java.util.Date;
  */
 public class Emprestimo implements IEmprestimo{
     
-    private int codigo;
+    private String codigo;
     private Date dataEmprestimo;
     private Date dataDevolucao;
     private Pessoa quemEmprestou;
@@ -18,7 +18,7 @@ public class Emprestimo implements IEmprestimo{
     public Emprestimo() {
     }
     
-    public Emprestimo(int codigo, Date dataEmprestimo, Date dataDevolucao, Pessoa quemEmprestou, int qtdLivros) {
+    public Emprestimo(String codigo, Date dataEmprestimo, Date dataDevolucao, Pessoa quemEmprestou, int qtdLivros) {
         this.codigo = codigo;
         this.dataEmprestimo = dataEmprestimo;
         this.dataDevolucao = dataDevolucao;
@@ -26,11 +26,11 @@ public class Emprestimo implements IEmprestimo{
         this.qtdLivros = qtdLivros;
     }
 
-    public int getCodigo() {
+    public String getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(int codigo) {
+    public void setCodigo(String codigo) {
         this.codigo = codigo;
     }
 

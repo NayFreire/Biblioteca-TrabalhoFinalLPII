@@ -3,6 +3,7 @@ package trabalhofinal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -84,8 +85,18 @@ public class TrabalhoFinal {
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, op2, op2[0]);
         
         switch(selected3){
-            case 0:
+            case 0:/*FAZER EMPRÉSTIMO*/
+                String codigoTxt = "EMP2020000";
+                int cod = 0;
                 
+                String codigo = codigoTxt + cod;
+                LocalDate dataEmprestimo = LocalDate.now();
+                System.out.println(dataEmprestimo);
+                
+                cod++;
+                
+                System.out.println(codigo);
+                menuEmprestimo();
             break;
             
             case 1:
@@ -112,7 +123,7 @@ public class TrabalhoFinal {
                     JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, op2, op2[0]);
         
         switch(selected4){
-            case 0:
+            case 0: /*ADICIONA EXEMPLAR*/
                 
             break;
             
