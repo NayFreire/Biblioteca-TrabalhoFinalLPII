@@ -17,12 +17,13 @@ public class TrabalhoFinal {
     
     static ArrayList<Aluno> alunos = new ArrayList<>();
     static ArrayList<Pessoa> funcionarios = new ArrayList<>();
-    static ArrayList<Pessoa> professores = new ArrayList<>();
+    static ArrayList<Professor> professores = new ArrayList<>();
     
     static ArrayList<Exemplar> exemplares = new ArrayList<>();
     static ArrayList<Emprestimo> emprestimos = new ArrayList<>();
     
     static String[] op2 = {"Adicionar", "Listar", "Atualizar", "Excluir", "Voltar"};
+    static String[] sts = {"Contratado", "Substituto"};
     
     public static void main(String[] args)  {
         
@@ -225,23 +226,69 @@ public class TrabalhoFinal {
                     JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, op2, op2[0]);
         
         switch(selected6){
-            case 0:
+            case 0: /*ADICIONA PROFESSOR*/ 
+                int cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF"));               
+                String nome = JOptionPane.showInputDialog("Informe o Nome");
+                String email = JOptionPane.showInputDialog("Informe o E-mail");
+                int tel = Integer.parseInt(JOptionPane.showInputDialog("Informe o Telefone"));
+                int id = Integer.parseInt(JOptionPane.showInputDialog("Informe o ID"));  
+                String pis = JOptionPane.showInputDialog("Informe o PIS");   
+                
+                String status = (String) JOptionPane.showInputDialog(null, "Status do seu cargo como professor",
+                "Qual o status?", JOptionPane.QUESTION_MESSAGE, null, sts, sts[0]);
+                
+                Professor professor = new Professor(id, pis, status, cpf, nome, email, tel);
+                
+                professores.add(professor);
+                
+                menuProfessor();                
+            break;
+            
+            case 1: /*LISTA PROFESSOR*/
+                for(Professor p : professores){
+                    System.out.println("CPF: " + p.getCpf());
+                    System.out.println("Nome: " + p.getNome());
+                    System.out.println("*********************");
+                }
+                System.out.println("-----------------------------");
+                menuAluno();
+            break;
+            
+            case 2: /*ATUALIZA PROFESSOR*/
+                Professor buscado = new Professor();
+                id = Integer.parseInt(JOptionPane.showInputDialog("Informe o ID"));  
+                
+                for(Professor p : professores){
+                    if(p.getId() == id){
+                        buscado = p;
+                        System.out.println("Registro com esse CPF: ");
+                        System.out.println("Nome: " + p.getNome());
+                    }
+                }
+                
+                cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF"));               
+                nome = JOptionPane.showInputDialog("Informe o Nome");
+                email = JOptionPane.showInputDialog("Informe o E-mail");
+                tel = Integer.parseInt(JOptionPane.showInputDialog("Informe o Telefone"));
+                id = Integer.parseInt(JOptionPane.showInputDialog("Informe o ID"));  
+                pis = JOptionPane.showInputDialog("Informe o PIS");   
+                
+                status = (String) JOptionPane.showInputDialog(null, "Status do seu cargo como professor",
+                "Qual o status?", JOptionPane.QUESTION_MESSAGE, null, sts, sts[0]);
+                
+                Professor professorAtualizado = new Professor(id, pis, status, cpf, nome, email, tel);
+                
+                professores.remove(buscado);
+                professores.add(buscado);
+                
+                menuAluno();
+            break;
+            
+            case 3: /*EXCLUI PROFESSOR*/
                 
             break;
             
-            case 1:
-                
-            break;
-            
-            case 2:
-                
-            break;
-            
-            case 3:
-                
-            break;
-            
-            case 4:
+            case 4: /*VOLTA*/
                 menuPrincipal();
             break;
         }
