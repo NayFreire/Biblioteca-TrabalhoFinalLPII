@@ -335,7 +335,7 @@ public class TrabalhoFinal {
     }
     
     public static void menuFuncionario() {
-        int selected7 = JOptionPane.showOptionDialog(null, "O que deseja fazer a respeito de alunos?", "Alunos", 
+        int selected7 = JOptionPane.showOptionDialog(null, "O que deseja fazer a respeito de funcionários?", "Funcionários", 
                     JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, op2, op2[0]);
         
         switch(selected7){
@@ -358,7 +358,7 @@ public class TrabalhoFinal {
             
             case 1: /*LISTA FUNCIONÁRIO*/
                 for(Funcionario f : funcionarios){
-                    System.out.println("ID: " + f.getPis());
+                    System.out.println("PIS: " + f.getPis());
                     System.out.println("Nome: " + f.getNome());
                     System.out.println("*********************");
                 }
@@ -372,7 +372,7 @@ public class TrabalhoFinal {
                 pis = JOptionPane.showInputDialog("Informe o PIS");  
                 
                 for(Funcionario f : funcionarios){
-                    if(f.getPis() == pis){
+                    if(f.getPis().equals(pis)){
                         achouFuncionario = true;
                         funcionarioBuscado = f;
                         System.out.println("Registro com esse ID: ");
@@ -400,7 +400,7 @@ public class TrabalhoFinal {
                     JOptionPane.showConfirmDialog(null, "Não foi encontrado registro com o PIS informado");
                 }
                 
-                menuProfessor();
+                menuFuncionario();
             break;
             
             case 3: /*EXCLUI FUNCIONÁRIO*/                
