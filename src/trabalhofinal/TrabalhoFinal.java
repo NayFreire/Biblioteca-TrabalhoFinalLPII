@@ -16,7 +16,7 @@ import javax.swing.ListModel;
 public class TrabalhoFinal {
     
     static ArrayList<Aluno> alunos = new ArrayList<>();
-    static ArrayList<Pessoa> funcionarios = new ArrayList<>();
+    static ArrayList<Funcionario> funcionarios = new ArrayList<>();
     static ArrayList<Professor> professores = new ArrayList<>();
     
     static ArrayList<Exemplar> exemplares = new ArrayList<>();
@@ -24,6 +24,7 @@ public class TrabalhoFinal {
     
     static String[] op2 = {"Adicionar", "Listar", "Atualizar", "Excluir", "Voltar"};
     static String[] sts = {"Contratado", "Substituto"};
+    static String[] depts = {"Administrativo", "Comunicação", "Gestão de Pessoas", "Limpeza/Cozinha", "Financeiro"};
     
     public static void main(String[] args)  {
         
@@ -168,29 +169,37 @@ public class TrabalhoFinal {
             break;
             
             case 2: /*ATUALIZA ALUNO*/
-                Aluno buscado = new Aluno();
-                cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF buscado"));
+                boolean achadoAtualizaAluno = false;
+                Aluno alunoBuscado = new Aluno();
+                cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF do aluno buscado"));
                 
                 for(Aluno a : alunos){
                     if(a.getCpf() == cpf){
-                        buscado = a;
-                        System.out.println("Registro com esse CPF: ");
-                        System.out.println("Nome: " + a.getNome());
+                        achadoAtualizaAluno = true;
+                        alunoBuscado = a;
+//                        System.out.println("Registro com esse CPF: ");
+//                        System.out.println("Nome: " + a.getNome());
                     }
                 }
                 
-                cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF", buscado.getCpf()));               
-                nome = JOptionPane.showInputDialog("Informe o Nome", buscado.getNome());
-                email = JOptionPane.showInputDialog("Informe o E-mail", buscado.getEmail());
-                tel = Integer.parseInt(JOptionPane.showInputDialog("Informe o Telefone", buscado.getTelefone()));
-                matricula = JOptionPane.showInputDialog("Informe a Matrícula", buscado.getMatricula());
-                curso = JOptionPane.showInputDialog("Informe curso em que está matriculado", buscado.getCurso());
-                dataNasc = JOptionPane.showInputDialog("Informe a data de nascimento", buscado.getDataNasc());   
-                
-                alunos.remove(buscado);
-                Aluno alunoAtualizado = new Aluno(matricula, curso, dataNasc,cpf, nome, email, tel);
-                
-                alunos.add(alunoAtualizado);
+                if(achadoAtualizaAluno){
+                    cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF", alunoBuscado.getCpf()));               
+                    nome = JOptionPane.showInputDialog("Informe o Nome", alunoBuscado.getNome());
+                    email = JOptionPane.showInputDialog("Informe o E-mail", alunoBuscado.getEmail());
+                    tel = Integer.parseInt(JOptionPane.showInputDialog("Informe o Telefone", alunoBuscado.getTelefone()));
+                    matricula = JOptionPane.showInputDialog("Informe a Matrícula", alunoBuscado.getMatricula());
+                    curso = JOptionPane.showInputDialog("Informe curso em que está matriculado", alunoBuscado.getCurso());
+                    dataNasc = JOptionPane.showInputDialog("Informe a data de nascimento", alunoBuscado.getDataNasc());   
+
+                    alunos.remove(alunoBuscado);
+                    Aluno alunoAtualizado = new Aluno(matricula, curso, dataNasc,cpf, nome, email, tel);
+
+                    alunos.add(alunoAtualizado);
+                }
+                else{
+                    JOptionPane.showConfirmDialog(null, "Não foi encontrado registro com o CPF informado");
+                }
+                                
                 menuAluno();
             break;
             
@@ -211,6 +220,9 @@ public class TrabalhoFinal {
                 if(achado){
                     alunos.remove(excluido);
                 }
+                else{
+                    JOptionPane.showConfirmDialog(null, "Não foi encontrado registro com o CPF informado");
+                }
                 
                 menuAluno();
             break;
@@ -222,16 +234,16 @@ public class TrabalhoFinal {
     }
     
     public static void menuProfessor() {
-        int selected6 = JOptionPane.showOptionDialog(null, "O que deseja fazer a respeito de alunos?", "Alunos", 
+        int selected6 = JOptionPane.showOptionDialog(null, "O que deseja fazer a respeito de professores?", "Professores", 
                     JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, op2, op2[0]);
         
         switch(selected6){
             case 0: /*ADICIONA PROFESSOR*/ 
-                int cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF"));               
+                int id = Integer.parseInt(JOptionPane.showInputDialog("Informe o ID"));           
                 String nome = JOptionPane.showInputDialog("Informe o Nome");
+                int cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF"));      
                 String email = JOptionPane.showInputDialog("Informe o E-mail");
                 int tel = Integer.parseInt(JOptionPane.showInputDialog("Informe o Telefone"));
-                int id = Integer.parseInt(JOptionPane.showInputDialog("Informe o ID"));  
                 String pis = JOptionPane.showInputDialog("Informe o PIS");   
                 
                 String status = (String) JOptionPane.showInputDialog(null, "Status do seu cargo como professor",
@@ -246,46 +258,74 @@ public class TrabalhoFinal {
             
             case 1: /*LISTA PROFESSOR*/
                 for(Professor p : professores){
-                    System.out.println("CPF: " + p.getCpf());
+                    System.out.println("ID: " + p.getId());
                     System.out.println("Nome: " + p.getNome());
                     System.out.println("*********************");
                 }
                 System.out.println("-----------------------------");
-                menuAluno();
+                menuProfessor();
             break;
             
             case 2: /*ATUALIZA PROFESSOR*/
-                Professor buscado = new Professor();
+                boolean achouProfessor = false;
+                Professor professorBuscado = new Professor();
                 id = Integer.parseInt(JOptionPane.showInputDialog("Informe o ID"));  
                 
                 for(Professor p : professores){
                     if(p.getId() == id){
-                        buscado = p;
-                        System.out.println("Registro com esse CPF: ");
+                        achouProfessor = true;
+                        professorBuscado = p;
+                        System.out.println("Registro com esse ID: ");
                         System.out.println("Nome: " + p.getNome());
                     }
                 }
                 
-                cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF"));               
-                nome = JOptionPane.showInputDialog("Informe o Nome");
-                email = JOptionPane.showInputDialog("Informe o E-mail");
-                tel = Integer.parseInt(JOptionPane.showInputDialog("Informe o Telefone"));
-                id = Integer.parseInt(JOptionPane.showInputDialog("Informe o ID"));  
-                pis = JOptionPane.showInputDialog("Informe o PIS");   
+                if(achouProfessor){
+                    id = Integer.parseInt(JOptionPane.showInputDialog("Informe o ID", professorBuscado.getId()));  
+                    cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF", professorBuscado.getCpf()));               
+                    nome = JOptionPane.showInputDialog("Informe o Nome", professorBuscado.getNome());
+                    email = JOptionPane.showInputDialog("Informe o E-mail", professorBuscado.getEmail());
+                    tel = Integer.parseInt(JOptionPane.showInputDialog("Informe o Telefone", professorBuscado.getTelefone()));
+                    pis = JOptionPane.showInputDialog("Informe o PIS", professorBuscado.getPis());   
+
+                    status = (String) JOptionPane.showInputDialog(null, "Status do seu cargo como professor",
+                    "Qual o status?", JOptionPane.QUESTION_MESSAGE, null, sts, sts[0]);
+
+                    professores.remove(professorBuscado);
+
+                    Professor professorAtualizado = new Professor(id, pis, status, cpf, nome, email, tel);
+
+                    professores.add(professorAtualizado);
+                }                
+                else{
+                    JOptionPane.showConfirmDialog(null, "Não foi encontrado registro com o ID informado");
+                }
                 
-                status = (String) JOptionPane.showInputDialog(null, "Status do seu cargo como professor",
-                "Qual o status?", JOptionPane.QUESTION_MESSAGE, null, sts, sts[0]);
-                
-                Professor professorAtualizado = new Professor(id, pis, status, cpf, nome, email, tel);
-                
-                professores.remove(buscado);
-                professores.add(buscado);
-                
-                menuAluno();
+                menuProfessor();
             break;
             
-            case 3: /*EXCLUI PROFESSOR*/
+            case 3: /*EXCLUI PROFESSOR*/                
+                boolean achado = false;
+                Professor excluido = new Professor();
                 
+                id = Integer.parseInt(JOptionPane.showInputDialog("Informe o ID do professor buscado")); 
+                
+                for(Professor p : professores){
+                    if(p.getId() == id){
+                        excluido = p;
+                        System.out.println("Nome: " + p.getNome());
+                        achado = true;
+                    }
+                }
+                
+                if(achado){
+                    professores.remove(excluido);
+                }
+                else{
+                    JOptionPane.showConfirmDialog(null, "Não foi encontrado registro com o ID informado");
+                }
+                
+                menuProfessor();
             break;
             
             case 4: /*VOLTA*/
@@ -299,23 +339,95 @@ public class TrabalhoFinal {
                     JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, op2, op2[0]);
         
         switch(selected7){
-            case 0:
+            case 0: /*ADICIONA FUNCIONÁRIO*/ 
+                String pis = JOptionPane.showInputDialog("Informe o PIS");            
+                String nome = JOptionPane.showInputDialog("Informe o Nome");
+                int cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF"));      
+                String email = JOptionPane.showInputDialog("Informe o E-mail");
+                int tel = Integer.parseInt(JOptionPane.showInputDialog("Informe o Telefone"));
+                String departamento = (String) JOptionPane.showInputDialog(null, "Departamento",
+                "Qual o seu departamento?", JOptionPane.QUESTION_MESSAGE, null, depts, depts[0]);
+                String cargo = JOptionPane.showInputDialog("Informe o seu cargo");
                 
+                Funcionario funcionario = new Funcionario(departamento, pis, cargo, cpf, nome, email, tel);
+                
+                funcionarios.add(funcionario);
+                
+                menuFuncionario();
             break;
             
-            case 1:
-                
+            case 1: /*LISTA FUNCIONÁRIO*/
+                for(Funcionario f : funcionarios){
+                    System.out.println("ID: " + f.getPis());
+                    System.out.println("Nome: " + f.getNome());
+                    System.out.println("*********************");
+                }
+                System.out.println("-----------------------------");
+                menuFuncionario();
             break;
             
-            case 2:
+            case 2: /*ATUALIZA FUNCIONÁRIO*/
+                boolean achouFuncionario = false;
+                Funcionario funcionarioBuscado = new Funcionario();
+                pis = JOptionPane.showInputDialog("Informe o PIS");  
                 
+                for(Funcionario f : funcionarios){
+                    if(f.getPis() == pis){
+                        achouFuncionario = true;
+                        funcionarioBuscado = f;
+                        System.out.println("Registro com esse ID: ");
+                        System.out.println("Nome: " + f.getNome());
+                    }
+                }
+                
+                if(achouFuncionario){
+                    pis = JOptionPane.showInputDialog("Informe o PIS", funcionarioBuscado.getPis());            
+                    nome = JOptionPane.showInputDialog("Informe o Nome", funcionarioBuscado.getNome());
+                    cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF", funcionarioBuscado.getCpf()));      
+                    email = JOptionPane.showInputDialog("Informe o E-mail", funcionarioBuscado.getEmail());
+                    tel = Integer.parseInt(JOptionPane.showInputDialog("Informe o Telefone", funcionarioBuscado.getTelefone()));
+                    departamento = (String) JOptionPane.showInputDialog(null, "Departamento",
+                    "Qual o seu departamento?", JOptionPane.QUESTION_MESSAGE, null, depts, funcionarioBuscado.getDepartamento());
+                    cargo = JOptionPane.showInputDialog("Informe o seu cargo");
+                
+                    funcionarios.remove(funcionarioBuscado);
+
+                    Funcionario funcionarioAtualizado = new Funcionario(departamento, pis, cargo, cpf, nome, email, tel);
+
+                    funcionarios.add(funcionarioAtualizado);
+                }                
+                else{
+                    JOptionPane.showConfirmDialog(null, "Não foi encontrado registro com o PIS informado");
+                }
+                
+                menuProfessor();
             break;
             
-            case 3:
+            case 3: /*EXCLUI FUNCIONÁRIO*/                
+                boolean achado = false;
+                Funcionario excluido = new Funcionario();
                 
+                pis = JOptionPane.showInputDialog("Informe o PIS do funcionario buscado"); 
+                
+                for(Funcionario f : funcionarios){
+                    if(f.getPis().equals(pis)){
+                        excluido = f;
+                        System.out.println("Nome: " + f.getNome());
+                        achado = true;
+                    }
+                }
+                
+                if(achado){
+                    funcionarios.remove(excluido);
+                }
+                else{
+                    JOptionPane.showConfirmDialog(null, "Não foi encontrado registro com o PIS informado");
+                }
+                
+                menuFuncionario();
             break;
             
-            case 4:
+            case 4: /*VOLTA*/
                 menuPrincipal();
             break;
         }
