@@ -26,7 +26,11 @@ public class TrabalhoFinal {
     static String[] op2 = {"Adicionar", "Listar", "Atualizar", "Excluir", "Voltar"};
     static String[] sts = {"Contratado", "Substituto"};
     static String[] depts = {"Administrativo", "Comunicação", "Gestão de Pessoas", "Limpeza/Cozinha", "Financeiro"};
+    static String[] quemE = {"Aluno", "Professor", "Funcionario"};
     
+    static String codigoTxt = "EMP2020000";
+    static int cod;
+        
     public static void main(String[] args)  {
         
         menuPrincipal();
@@ -85,19 +89,58 @@ public class TrabalhoFinal {
                 JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, op2, op2[0]);
         
         switch(selected3){
-            case 0:/*FAZER EMPRÉSTIMO*/
-                String codigoTxt = "EMP2020000";
-                int cod = 0;
+            
+            case 0:/*FAZER EMPRÉSTIMO*/   
+                Aluno alunoAchado = new Aluno();
+                Exemplar exemplarAchado = new Exemplar();
+                Professor professorAchado = new Professor();
+                Funcionario funcAchado = new Funcionario();
+                
+                String quemEstaFazendoEmp = (String) JOptionPane.showInputDialog(null, "Qual a classificação da pessoa",
+                "Qual o status?", JOptionPane.QUESTION_MESSAGE, null, quemE, quemE[0]);
                 
                 String codigo = codigoTxt + cod;
-                LocalDate dataEmprestimo = LocalDate.now();
-                System.out.println(dataEmprestimo);
-                
                 cod++;
+                LocalDate dataEmprestimo = LocalDate.now();
+                LocalDate dataDevolucao = LocalDate.now().plusDays(5);
                 
-                System.out.println(codigo);
+                if(quemEstaFazendoEmp.equals("Aluno")){                    
+                    alunoAchado = alunosEmprestimo();
+                    exemplarAchado = buscaExemplar();   
+                    
+                    Emprestimo emprestAluno = new Emprestimo();
+                    emprestAluno.setCodigo(codigo);
+                    emprestAluno.setDataEmprestimo(dataEmprestimo);
+                    emprestAluno.setDataDevolucao(dataDevolucao);
+                    emprestAluno.setQuemEmprestou(alunoAchado);
+                    emprestAluno.addExemplar(exemplarAchado);
+                }
+                
+                else if(quemEstaFazendoEmp.equals("Professor")){
+                    int idBuscado = Integer.parseInt(JOptionPane.showInputDialog("ID do professor"));
+                    
+                    for(Professor prof : professores){
+                        if(prof.getId()==idBuscado){
+                            achouQuemFezEmprestimo = true;
+                            profQueEmprestou = prof;
+                        }                    
+                    }
+                }
+                else{
+                    String pisBuscada = JOptionPane.showInputDialog("PIS do funcionário");
+                    for(Funcionario func : funcionarios){
+                        if(func.getPis().equals(pisBuscada)){
+                            achouQuemFezEmprestimo = true;
+                            funcQueEmprestou = func;
+                        }                    
+                    }
+                }
+                
+                
+                
                 menuEmprestimo();
             break;
+
             
             case 1:
                 
@@ -442,5 +485,48 @@ public class TrabalhoFinal {
                 menuPrincipal();
             break;
         }
+    }
+    
+    public static Aluno alunosEmprestimo(){
+        boolean achouAluno = false;
+        Aluno alunoQueQuerEmprestar = new Aluno();
+        
+        String matriculaBuscada = JOptionPane.showInputDialog("Matrícula do aluno");
+        for(Aluno aluno : alunos){
+            if(aluno.getMatricula().equals(matriculaBuscada)){
+                achouAluno = true;
+                alunoQueQuerEmprestar = aluno;
+            }                    
+        }
+        
+        if(achouAluno){
+            buscaExemplar();
+        }
+        else{
+            JOptionPane.showConfirmDialog(null, "Não foi achado um aluno com essa matrícula");
+        }
+        return alunoQueQuerEmprestar;
+    }
+    
+    public static Exemplar buscaExemplar(){
+        boolean achouExemplar = false;
+        Exemplar exemplarBuscado = new Exemplar();
+        
+        String isbnBuscada = JOptionPane.showInputDialog("ISBN do exemplar");
+        
+        for(Exemplar ex : exemplares){
+            if(ex.getIsbn().equals(isbnBuscada)){
+                achouExemplar = true;
+                exemplarBuscado = ex;
+            }
+        }
+        
+        if(achouExemplar){
+            JOptionPane.showConfirmDialog(null, exemplarBuscado.getTitulo());
+        }
+        else{
+            JOptionPane.showConfirmDialog(null, "Não foi achado um exemplar com esse ISBN");
+        }
+        return exemplarBuscado;
     }
 }
