@@ -3,7 +3,7 @@ package trabalhofinal;
  * @author nayfr
  */
 public class Exemplar {
-    private int isbn;
+    private String isbn;
     private String titulo;
     private String editora;
     private String autor;
@@ -12,7 +12,7 @@ public class Exemplar {
     public Exemplar() {
     }
     
-    public Exemplar(int isbn, String titulo, String editora, String autor, String idioma) {
+    public Exemplar(String isbn, String titulo, String editora, String autor, String idioma) {
         this.isbn = isbn;
         this.titulo = titulo;
         this.editora = editora;
@@ -20,11 +20,11 @@ public class Exemplar {
         this.idioma = idioma;
     }
 
-    public int getIsbn() {
+    public String getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(int isbn) {
+    public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
 

@@ -1,5 +1,6 @@
 package trabalhofinal;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -43,7 +44,7 @@ public class Aluno extends Pessoa{
     public void setDataNasc(String dataNasc) {
         this.dataNasc = dataNasc;
     }
-
+  
     @Override
     public void bemVindo() {
         super.bemVindo(); //To change body of generated methods, choose Tools | Templates.

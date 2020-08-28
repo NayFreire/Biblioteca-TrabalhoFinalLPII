@@ -118,14 +118,15 @@ public class TrabalhoFinal {
                     emprestimos.add(emprestAluno);
                     
                     qtdExemplares++;
-                    
+                    System.out.println("qtd: " + qtdExemplares);
                     int multExemplares = JOptionPane.showConfirmDialog(null, "Adicionar mais algum exemplar?");
                                    
-                    while(qtdExemplares<=3){
+                    while(qtdExemplares<3){
                         if(multExemplares == 0){
                             exemplarAchado = buscaExemplar();
                             emprestAluno.addExemplar(exemplarAchado);
                             qtdExemplares++;
+                            multExemplares = JOptionPane.showConfirmDialog(null, "Adicionar mais algum exemplar?");
                         }
                         else{
                             break;
@@ -154,11 +155,12 @@ public class TrabalhoFinal {
                     
                     int multExemplares = JOptionPane.showConfirmDialog(null, "Adicionar mais algum exemplar?");
                                    
-                    while(qtdExemplares<=3){
+                    while(qtdExemplares<3){
                         if(multExemplares == 0){
                             exemplarAchado = buscaExemplar();
                             emprestProf.addExemplar(exemplarAchado);
                             qtdExemplares++;
+                            multExemplares = JOptionPane.showConfirmDialog(null, "Adicionar mais algum exemplar?");
                         }
                         else{
                             break;
@@ -186,11 +188,12 @@ public class TrabalhoFinal {
                     
                     int multExemplares = JOptionPane.showConfirmDialog(null, "Adicionar mais algum exemplar?");
                                    
-                    while(qtdExemplares<=3){
+                    while(qtdExemplares<3){
                         if(multExemplares == 0){
                             exemplarAchado = buscaExemplar();
                             emprestFunc.addExemplar(exemplarAchado);
                             qtdExemplares++;
+                            multExemplares = JOptionPane.showConfirmDialog(null, "Adicionar mais algum exemplar?");
                         }
                         else{
                             break;
@@ -221,17 +224,19 @@ public class TrabalhoFinal {
                     System.out.println("-------------------------------------------------");
                 }
                 System.out.println("********************************************************");
+                
+                menuEmprestimo();
             break;
             
-            case 2:
+            case 2: /*ATUALIZAR EMPRÉSTIMOS*/
                 
             break;
             
-            case 3:
+            case 3: /*EXCLUIR EMPRÉSTIMOS*/
                 
             break;
             
-            case 4:
+            case 4: /*VOLTAR*/
                 menuPrincipal();
             break;
         }

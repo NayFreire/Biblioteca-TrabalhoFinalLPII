@@ -1,5 +1,6 @@
 package trabalhofinal;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -9,21 +10,20 @@ import java.util.Date;
 public class Emprestimo implements IEmprestimo{
     
     private String codigo;
-    private Date dataEmprestimo;
-    private Date dataDevolucao;
+    private LocalDate dataEmprestimo;
+    private LocalDate dataDevolucao;
     private Pessoa quemEmprestou;
-    private int qtdLivros;
     private ArrayList<Exemplar> livros = new ArrayList<>();
 
     public Emprestimo() {
     }
     
-    public Emprestimo(String codigo, Date dataEmprestimo, Date dataDevolucao, Pessoa quemEmprestou, int qtdLivros) {
+    public Emprestimo(String codigo, LocalDate dataEmprestimo, LocalDate dataDevolucao, Pessoa quemEmprestou, ArrayList livros) {
         this.codigo = codigo;
         this.dataEmprestimo = dataEmprestimo;
         this.dataDevolucao = dataDevolucao;
         this.quemEmprestou = quemEmprestou;
-        this.qtdLivros = qtdLivros;
+        this.livros = livros;
     }
 
     public String getCodigo() {
@@ -34,19 +34,19 @@ public class Emprestimo implements IEmprestimo{
         this.codigo = codigo;
     }
 
-    public Date getDataEmprestimo() {
+    public LocalDate getDataEmprestimo() {
         return dataEmprestimo;
     }
 
-    public void setDataEmprestimo(Date dataEmprestimo) {
+    public void setDataEmprestimo(LocalDate dataEmprestimo) {
         this.dataEmprestimo = dataEmprestimo;
     }
 
-    public Date getDataDevolucao() {
+    public LocalDate getDataDevolucao() {
         return dataDevolucao;
     }
 
-    public void setDataDevolucao(Date dataDevolucao) {
+    public void setDataDevolucao(LocalDate dataDevolucao) {
         this.dataDevolucao = dataDevolucao;
     }
 
@@ -56,14 +56,6 @@ public class Emprestimo implements IEmprestimo{
 
     public void setQuemEmprestou(Pessoa quemEmprestou) {
         this.quemEmprestou = quemEmprestou;
-    }
-
-    public int getQtdLivros() {
-        return qtdLivros;
-    }
-
-    public void setQtdLivros(int qtdLivros) {
-        this.qtdLivros = qtdLivros;
     }
 
     public ArrayList<Exemplar> getLivros() {
@@ -76,7 +68,7 @@ public class Emprestimo implements IEmprestimo{
     
     @Override
     public void addExemplar(Exemplar exemplar) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        livros.add(exemplar);
     }
 
     @Override
@@ -88,5 +80,6 @@ public class Emprestimo implements IEmprestimo{
     public void definirDataDeDevolucao() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
     
 }
