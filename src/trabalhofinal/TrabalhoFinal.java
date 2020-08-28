@@ -95,7 +95,7 @@ public class TrabalhoFinal {
                 Exemplar exemplarAchado = new Exemplar();
                 Professor professorAchado = new Professor();
                 Funcionario funcAchado = new Funcionario();
-                
+                int qtdExemplares = 0;
                 String quemEstaFazendoEmp = (String) JOptionPane.showInputDialog(null, "Qual a classificação da pessoa",
                 "Qual o status?", JOptionPane.QUESTION_MESSAGE, null, quemE, quemE[0]);
                 
@@ -114,36 +114,113 @@ public class TrabalhoFinal {
                     emprestAluno.setDataDevolucao(dataDevolucao);
                     emprestAluno.setQuemEmprestou(alunoAchado);
                     emprestAluno.addExemplar(exemplarAchado);
+                    
+                    emprestimos.add(emprestAluno);
+                    
+                    qtdExemplares++;
+                    
+                    int multExemplares = JOptionPane.showConfirmDialog(null, "Adicionar mais algum exemplar?");
+                                   
+                    while(qtdExemplares<=3){
+                        if(multExemplares == 0){
+                            exemplarAchado = buscaExemplar();
+                            emprestAluno.addExemplar(exemplarAchado);
+                            qtdExemplares++;
+                        }
+                        else{
+                            break;
+                        }
+                    }
+                    
+                    if(qtdExemplares==3){
+                        JOptionPane.showConfirmDialog(null, "O número máximo de exemplares por empréstimo é 3");
+                    }
                 }
                 
                 else if(quemEstaFazendoEmp.equals("Professor")){
-                    int idBuscado = Integer.parseInt(JOptionPane.showInputDialog("ID do professor"));
+                    professorAchado = professoresEmprestimo();
+                    exemplarAchado = buscaExemplar();
                     
-                    for(Professor prof : professores){
-                        if(prof.getId()==idBuscado){
-                            achouQuemFezEmprestimo = true;
-                            profQueEmprestou = prof;
-                        }                    
+                    Emprestimo emprestProf = new Emprestimo();
+                    emprestProf.setCodigo(codigo);
+                    emprestProf.setDataEmprestimo(dataEmprestimo);
+                    emprestProf.setDataDevolucao(dataDevolucao);
+                    emprestProf.setQuemEmprestou(professorAchado);
+                    emprestProf.addExemplar(exemplarAchado);
+                    
+                    emprestimos.add(emprestProf);
+                    
+                    qtdExemplares++;
+                    
+                    int multExemplares = JOptionPane.showConfirmDialog(null, "Adicionar mais algum exemplar?");
+                                   
+                    while(qtdExemplares<=3){
+                        if(multExemplares == 0){
+                            exemplarAchado = buscaExemplar();
+                            emprestProf.addExemplar(exemplarAchado);
+                            qtdExemplares++;
+                        }
+                        else{
+                            break;
+                        }
+                    }
+                    
+                    if(qtdExemplares==3){
+                        JOptionPane.showConfirmDialog(null, "O número máximo de exemplares por empréstimo é 3");
                     }
                 }
                 else{
-                    String pisBuscada = JOptionPane.showInputDialog("PIS do funcionário");
-                    for(Funcionario func : funcionarios){
-                        if(func.getPis().equals(pisBuscada)){
-                            achouQuemFezEmprestimo = true;
-                            funcQueEmprestou = func;
-                        }                    
+                    funcAchado = funcionariosEmprestimo();
+                    exemplarAchado = buscaExemplar();
+                    
+                    Emprestimo emprestFunc = new Emprestimo();
+                    emprestFunc.setCodigo(codigo);
+                    emprestFunc.setDataEmprestimo(dataEmprestimo);
+                    emprestFunc.setDataDevolucao(dataDevolucao);
+                    emprestFunc.setQuemEmprestou(funcAchado);
+                    emprestFunc.addExemplar(exemplarAchado);
+                    
+                    emprestimos.add(emprestFunc);
+                    
+                    qtdExemplares++;
+                    
+                    int multExemplares = JOptionPane.showConfirmDialog(null, "Adicionar mais algum exemplar?");
+                                   
+                    while(qtdExemplares<=3){
+                        if(multExemplares == 0){
+                            exemplarAchado = buscaExemplar();
+                            emprestFunc.addExemplar(exemplarAchado);
+                            qtdExemplares++;
+                        }
+                        else{
+                            break;
+                        }
                     }
+                    
+                    if(qtdExemplares==3){
+                        JOptionPane.showConfirmDialog(null, "O número máximo de exemplares por empréstimo é 3");
+                    }
+                    
                 }
-                
-                
                 
                 menuEmprestimo();
             break;
 
             
-            case 1:
-                
+            case 1: /*LISTAR EMPRÉSTIMOS*/
+                System.out.println("***************** Lista de Empréstimos *****************");
+                for(Emprestimo emp : emprestimos){
+                    System.out.println("Código: " + emp.getCodigo());
+                    System.out.println("Nome: " + emp.getQuemEmprestou().getNome());
+                    System.out.println("Data do Empréstimo: " + emp.getDataEmprestimo());
+                    System.out.println("Data da Devolução: " + emp.getDataDevolucao());
+                    System.out.println("Exemplar(es): ");
+                    for(Exemplar e : emp.getLivros()){
+                        System.out.println(e.getTitulo());
+                    }
+                    System.out.println("-------------------------------------------------");
+                }
+                System.out.println("********************************************************");
             break;
             
             case 2:
@@ -167,19 +244,77 @@ public class TrabalhoFinal {
         
         switch(selected4){
             case 0: /*ADICIONA EXEMPLAR*/
+                String isbn = JOptionPane.showInputDialog("Informe o ISBN");               
+                String titulo = JOptionPane.showInputDialog("Informe o Título");
+                String editora = JOptionPane.showInputDialog("Informe a Editora");
+                String autor = JOptionPane.showInputDialog("Informe o (a) Autor(a)");
+                String idioma = JOptionPane.showInputDialog("Informe idioma");
                 
+                Exemplar exemplar = new Exemplar(isbn, titulo, editora, autor, idioma);
+                
+                exemplares.add(exemplar);
+                
+                menuExemplar();
+            
+            case 1: /*LISTA EXEMPLAR*/
+                for(Exemplar ex : exemplares){
+                    System.out.println("ISBN: " + ex.getIsbn());
+                    System.out.println("Título: " + ex.getTitulo());
+                    System.out.println("*********************");
+                }
+                System.out.println("-----------------------------");
+                menuExemplar();
             break;
             
-            case 1:
+            case 2: /*ATUALIZA EXEMPLAR*/
+                boolean achadoAtualizaExemplar = false;
+                Exemplar exBuscado = new Exemplar();
+                isbn = JOptionPane.showInputDialog("Informe o ISBN do exemplar buscado");
                 
+                for(Exemplar ex : exemplares){
+                    if(ex.getIsbn().equals(isbn)){
+                        achadoAtualizaExemplar = true;
+                        exBuscado = ex;
+                    }
+                }  
+                
+                if(achadoAtualizaExemplar){
+                    isbn = JOptionPane.showInputDialog("Informe o ISBN");               
+                    titulo = JOptionPane.showInputDialog("Informe o Título");
+                    editora = JOptionPane.showInputDialog("Informe a Editora");
+                    autor = JOptionPane.showInputDialog("Informe o (a) Autor(a)");
+                    idioma = JOptionPane.showInputDialog("Informe idioma");
+                    exemplares.remove(achadoAtualizaExemplar);
+                    
+                    Exemplar exemplarAtualizado = new Exemplar(isbn, titulo, editora, autor, idioma);
+                
+                    exemplares.add(exemplarAtualizado);
+
+                    menuExemplar();
+                }
+                else{
+                    JOptionPane.showConfirmDialog(null, "Não foi encontrado exemplar com o ISBN informado");
+                }
             break;
             
-            case 2:
+            case 3: /*EXCLUIR EXEMPLAR*/
+                boolean achadoExemplar = false;
+                Exemplar exRemover = new Exemplar();
+                isbn = JOptionPane.showInputDialog("Informe o ISBN do exemplar que deseja excluir");
                 
-            break;
-            
-            case 3:
+                for(Exemplar ex : exemplares){
+                    if(ex.getIsbn().equals(isbn)){
+                        achadoExemplar = true;
+                        exRemover = ex;
+                    }
+                }       
                 
+                if(achadoExemplar){
+                    exemplares.remove(exRemover);
+                }
+                else{
+                    JOptionPane.showConfirmDialog(null, "Não foi encontrado exemplar com o ISBN informado");
+                }
             break;
             
             case 4:
@@ -500,12 +635,54 @@ public class TrabalhoFinal {
         }
         
         if(achouAluno){
-            buscaExemplar();
+            JOptionPane.showConfirmDialog(null, "Nome: " + alunoQueQuerEmprestar.getNome());
         }
         else{
             JOptionPane.showConfirmDialog(null, "Não foi achado um aluno com essa matrícula");
         }
         return alunoQueQuerEmprestar;
+    }
+    
+    public static Professor professoresEmprestimo(){
+        boolean achouProf = false;
+        Professor profQueQuerEmprestar = new Professor();
+        
+        int idBuscado = Integer.parseInt(JOptionPane.showInputDialog("ID do professor"));
+        for(Professor prof : professores){
+            if(prof.getId()==idBuscado){
+                achouProf = true;
+                profQueQuerEmprestar = prof;
+            }                    
+        }
+        
+        if(achouProf){
+            JOptionPane.showConfirmDialog(null, "Nome: " + profQueQuerEmprestar.getNome());
+        }
+        else{
+            JOptionPane.showConfirmDialog(null, "Não foi achado um aluno com essa matrícula");
+        }
+        return profQueQuerEmprestar;
+    }
+    
+    public static Funcionario funcionariosEmprestimo(){
+        boolean achouFunc = false;
+        Funcionario funcQueQuerEmprestar = new Funcionario();
+        
+        String pisBuscado = JOptionPane.showInputDialog("PIS do funcionario");
+        for(Funcionario func : funcionarios){
+            if(func.getPis().equals(pisBuscado)){
+                achouFunc = true;
+                funcQueQuerEmprestar = func;
+            }                    
+        }
+        
+        if(achouFunc){
+            JOptionPane.showConfirmDialog(null, "Nome: " + funcQueQuerEmprestar.getNome());
+        }
+        else{
+            JOptionPane.showConfirmDialog(null, "Não foi achado um aluno com essa matrícula");
+        }
+        return funcQueQuerEmprestar;
     }
     
     public static Exemplar buscaExemplar(){
