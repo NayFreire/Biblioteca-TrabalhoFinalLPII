@@ -1,8 +1,15 @@
 package trabalhofinal;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Date;
+import javax.swing.JOptionPane;
+import static trabalhofinal.TrabalhoFinal.alunos;
+import static trabalhofinal.TrabalhoFinal.emprestimos;
+import static trabalhofinal.TrabalhoFinal.funcionarios;
+import static trabalhofinal.TrabalhoFinal.professores;
+import static trabalhofinal.TrabalhoFinal.quemE;
 
 /**
  * @author nayfr
@@ -73,12 +80,73 @@ public class Emprestimo implements IEmprestimo{
 
     @Override
     public boolean devolverLivros() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Emprestimo devolucao = new Emprestimo();
+        
+        String quemEstaFazendoEmp = (String) JOptionPane.showInputDialog(null, "Qual a classificação da pessoa",
+                "Qual o status?", JOptionPane.QUESTION_MESSAGE, null, quemE, quemE[0]);
+        String nome = "";
+        
+        if(quemEstaFazendoEmp.equals("Aluno")){
+            String matriculaDevolmendo = JOptionPane.showInputDialog("Matrícula do Aluno");
+            for(Aluno devolvendo : alunos){
+                if(matriculaDevolmendo.equals(devolvendo.getMatricula())){
+                    nome = devolvendo.getNome();
+                }
+            }  
+        }
+        else if(quemEstaFazendoEmp.equals("Professor")){
+            int idDevolmendo = Integer.parseInt(JOptionPane.showInputDialog("ID do Professor"));
+            for(Professor devolvendo : professores){
+                if(idDevolmendo==devolvendo.getId()){
+                    nome = devolvendo.getNome();
+                }
+            }  
+        }
+        else{
+            String pisDevolvendo = JOptionPane.showInputDialog("PIS do Funcionário");
+            for(Funcionario devolvendo : funcionarios){
+                if(pisDevolvendo.equals(devolvendo.getPis())){
+                    nome = devolvendo.getNome();
+                }
+            }
+        }
+        int i;
+        
+        int qtdLivros = Integer.parseInt(JOptionPane.showInputDialog("Quantos livros deseja devolver?"));
+        boolean vazia = false;
+        
+        for(i=0;i<qtdLivros;i++){
+            String isbnBuscado = JOptionPane.showInputDialog("Informe o ISBN do exemplar");
+            Exemplar devolvido = new Exemplar();
+
+            for(Emprestimo emp : emprestimos){
+                if(emp.quemEmprestou.getNome().equals(nome)){
+                    System.out.println("Nome: " + emp.quemEmprestou.getNome());
+                    for(Exemplar emprestado : emp.livros){
+                        if(emprestado.getIsbn().equals(isbnBuscado)){
+                            devolvido = emprestado;
+                        }
+                    }
+                    emp.livros.remove(devolvido);
+                    if(emp.livros.isEmpty()){
+                        vazia = true;
+                        devolucao = emp;
+                    }
+                }
+            }
+            
+            if(vazia){
+                emprestimos.remove(devolucao);
+            }
+            
+        }
+        return true;
     }
 
     @Override
     public void definirDataDeDevolucao() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        LocalDate dataDevolucao = LocalDate.now().plusDays(5);
+        setDataDevolucao(dataDevolucao);
     }
 
     
