@@ -38,7 +38,7 @@ public class TrabalhoFinal {
     
     public static void menuPrincipal() {
         
-        String[] op1 = {"Ver Cadastros", "Ver Emprestimos", "Ver Exemplares"};
+        String[] op1 = {"Cadastros", "Emprestimos", "Exemplares", "Devoluções"};
         
         int selected1 = JOptionPane.showOptionDialog(null, "O que deseja fazer?", "Bem-vindo(a)", 
                     JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, op1, op1[0]);
@@ -54,6 +54,9 @@ public class TrabalhoFinal {
             
             case 2:
                 menuExemplar();
+            break;
+            case 3:
+                menuDevolucao();
             break;
         }
     }
@@ -102,7 +105,6 @@ public class TrabalhoFinal {
                 String codigo = codigoTxt + cod;
                 cod++;
                 LocalDate dataEmprestimo = LocalDate.now();
-                LocalDate dataDevolucao = LocalDate.now().plusDays(5);
                 
                 if(quemEstaFazendoEmp.equals("Aluno")){                    
                     alunoAchado = alunosEmprestimo();
@@ -111,14 +113,15 @@ public class TrabalhoFinal {
                     Emprestimo emprestAluno = new Emprestimo();
                     emprestAluno.setCodigo(codigo);
                     emprestAluno.setDataEmprestimo(dataEmprestimo);
-                    emprestAluno.setDataDevolucao(dataDevolucao);
+                    emprestAluno.definirDataDeDevolucao();
                     emprestAluno.setQuemEmprestou(alunoAchado);
                     emprestAluno.addExemplar(exemplarAchado);
                     
                     emprestimos.add(emprestAluno);
+                    exemplares.remove(exemplarAchado);
                     
                     qtdExemplares++;
-                    System.out.println("qtd: " + qtdExemplares);
+                    
                     int multExemplares = JOptionPane.showConfirmDialog(null, "Adicionar mais algum exemplar?");
                                    
                     while(qtdExemplares<3){
@@ -145,11 +148,12 @@ public class TrabalhoFinal {
                     Emprestimo emprestProf = new Emprestimo();
                     emprestProf.setCodigo(codigo);
                     emprestProf.setDataEmprestimo(dataEmprestimo);
-                    emprestProf.setDataDevolucao(dataDevolucao);
+                    emprestProf.definirDataDeDevolucao();
                     emprestProf.setQuemEmprestou(professorAchado);
                     emprestProf.addExemplar(exemplarAchado);
                     
                     emprestimos.add(emprestProf);
+                    exemplares.remove(exemplarAchado);
                     
                     qtdExemplares++;
                     
@@ -178,11 +182,12 @@ public class TrabalhoFinal {
                     Emprestimo emprestFunc = new Emprestimo();
                     emprestFunc.setCodigo(codigo);
                     emprestFunc.setDataEmprestimo(dataEmprestimo);
-                    emprestFunc.setDataDevolucao(dataDevolucao);
+                    emprestFunc.definirDataDeDevolucao();
                     emprestFunc.setQuemEmprestou(funcAchado);
                     emprestFunc.addExemplar(exemplarAchado);
                     
                     emprestimos.add(emprestFunc);
+                    exemplares.remove(exemplarAchado);
                     
                     qtdExemplares++;
                     
@@ -544,6 +549,7 @@ public class TrabalhoFinal {
                 String cargo = JOptionPane.showInputDialog("Informe o seu cargo");
                 
                 Funcionario funcionario = new Funcionario(departamento, pis, cargo, cpf, nome, email, tel);
+                funcionario.definirHorario();
                 
                 funcionarios.add(funcionario);
                 
@@ -625,6 +631,25 @@ public class TrabalhoFinal {
                 menuPrincipal();
             break;
         }
+    }
+    
+    public static void menuDevolucao(){
+        Emprestimo devolucao = new Emprestimo();
+        
+        String quemEstaFazendoEmp = (String) JOptionPane.showInputDialog(null, "Qual a classificação da pessoa",
+                "Qual o status?", JOptionPane.QUESTION_MESSAGE, null, quemE, quemE[0]);
+        
+        if(quemEstaFazendoEmp.equals("Aluno")){
+            Aluno alunoDevolvendo = new Aluno();
+            String matriculaDevolmendo = JOptionPane.showInputDialog("Matrícula do Aluno");
+            for(Aluno devolvendo : alunos){
+                if(matriculaDevolmendo.equals(devolvendo.getMatricula())){
+                    alunoDevolvendo = devolvendo;
+                }
+            }            
+        }
+        
+        devolucao.devolverLivros();
     }
     
     public static Aluno alunosEmprestimo(){
