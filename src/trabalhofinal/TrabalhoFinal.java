@@ -1,15 +1,8 @@
 package trabalhofinal;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.ListModel;
 
 /**
  * @author nayfr
@@ -95,170 +88,26 @@ public class TrabalhoFinal {
         switch(selected3){
             
             case 0:/*FAZER EMPRÉSTIMO*/   
-                Aluno alunoAchado = new Aluno();
-                Exemplar exemplarAchado = new Exemplar();
-                Professor professorAchado = new Professor();
-                Funcionario funcAchado = new Funcionario();
-                int qtdExemplares = 0;
-                String quemEstaFazendoEmp = (String) JOptionPane.showInputDialog(null, "Qual a classificação da pessoa",
-                "Qual o status?", JOptionPane.QUESTION_MESSAGE, null, quemE, quemE[0]);
-                
-                String codigo = codigoTxt + cod;
-                cod++;
-                LocalDate dataEmprestimo = LocalDate.now();
-                
-                if(quemEstaFazendoEmp.equals("Aluno")){                    
-                    alunoAchado = alunosEmprestimo();
-                    exemplarAchado = buscaExemplar();   
-                    
-                    Emprestimo emprestAluno = new Emprestimo();
-                    emprestAluno.setCodigo(codigo);
-                    emprestAluno.setDataEmprestimo(dataEmprestimo);
-                    emprestAluno.definirDataDeDevolucao();
-                    emprestAluno.setQuemEmprestou(alunoAchado);
-                    emprestAluno.addExemplar(exemplarAchado);
-                    
-                    emprestimos.add(emprestAluno);
-                    exemplares.remove(exemplarAchado);
-                    
-                    qtdExemplares++;
-                    
-                    int multExemplares = JOptionPane.showConfirmDialog(null, "Adicionar mais algum exemplar?");
-                                   
-                    while(qtdExemplares<3){
-                        if(multExemplares == 0){
-                            exemplarAchado = buscaExemplar();
-                            emprestAluno.addExemplar(exemplarAchado);
-                            qtdExemplares++;
-                            multExemplares = JOptionPane.showConfirmDialog(null, "Adicionar mais algum exemplar?");
-                        }
-                        else{
-                            break;
-                        }
-                    }
-                    
-                    if(qtdExemplares==3){
-                        JOptionPane.showConfirmDialog(null, "O número máximo de exemplares por empréstimo é 3");
-                    }
-                }
-                
-                else if(quemEstaFazendoEmp.equals("Professor")){
-                    professorAchado = professoresEmprestimo();
-                    exemplarAchado = buscaExemplar();
-                    
-                    Emprestimo emprestProf = new Emprestimo();
-                    emprestProf.setCodigo(codigo);
-                    emprestProf.setDataEmprestimo(dataEmprestimo);
-                    emprestProf.definirDataDeDevolucao();
-                    emprestProf.setQuemEmprestou(professorAchado);
-                    emprestProf.addExemplar(exemplarAchado);
-                    
-                    emprestimos.add(emprestProf);
-                    exemplares.remove(exemplarAchado);
-                    
-                    qtdExemplares++;
-                    
-                    int multExemplares = JOptionPane.showConfirmDialog(null, "Adicionar mais algum exemplar?");
-                                   
-                    while(qtdExemplares<3){
-                        if(multExemplares == 0){
-                            exemplarAchado = buscaExemplar();
-                            emprestProf.addExemplar(exemplarAchado);
-                            qtdExemplares++;
-                            multExemplares = JOptionPane.showConfirmDialog(null, "Adicionar mais algum exemplar?");
-                        }
-                        else{
-                            break;
-                        }
-                    }
-                    
-                    if(qtdExemplares==3){
-                        JOptionPane.showConfirmDialog(null, "O número máximo de exemplares por empréstimo é 3");
-                    }
-                }
-                else{
-                    funcAchado = funcionariosEmprestimo();
-                    exemplarAchado = buscaExemplar();
-                    
-                    Emprestimo emprestFunc = new Emprestimo();
-                    emprestFunc.setCodigo(codigo);
-                    emprestFunc.setDataEmprestimo(dataEmprestimo);
-                    emprestFunc.definirDataDeDevolucao();
-                    emprestFunc.setQuemEmprestou(funcAchado);
-                    emprestFunc.addExemplar(exemplarAchado);
-                    
-                    emprestimos.add(emprestFunc);
-                    exemplares.remove(exemplarAchado);
-                    
-                    qtdExemplares++;
-                    
-                    int multExemplares = JOptionPane.showConfirmDialog(null, "Adicionar mais algum exemplar?");
-                                   
-                    while(qtdExemplares<3){
-                        if(multExemplares == 0){
-                            exemplarAchado = buscaExemplar();
-                            emprestFunc.addExemplar(exemplarAchado);
-                            qtdExemplares++;
-                            multExemplares = JOptionPane.showConfirmDialog(null, "Adicionar mais algum exemplar?");
-                        }
-                        else{
-                            break;
-                        }
-                    }
-                    
-                    if(qtdExemplares==3){
-                        JOptionPane.showConfirmDialog(null, "O número máximo de exemplares por empréstimo é 3");
-                    }
-                    
-                }
-                
+                fazerEmprestimo();                
                 menuEmprestimo();
             break;
 
             
-            case 1: /*LISTAR EMPRÉSTIMOS*/
-                System.out.println("***************** Lista de Empréstimos *****************");
-                for(Emprestimo emp : emprestimos){
-                    System.out.println("Código: " + emp.getCodigo());
-                    System.out.println("Nome: " + emp.getQuemEmprestou().getNome());
-                    System.out.println("Data do Empréstimo: " + emp.getDataEmprestimo());
-                    System.out.println("Data da Devolução: " + emp.getDataDevolucao());
-                    System.out.println("Exemplar(es): ");
-                    for(Exemplar e : emp.getLivros()){
-                        System.out.println(e.getTitulo());
-                    }
-                    System.out.println("-------------------------------------------------");
-                }
-                System.out.println("********************************************************");
-                
+            case 1: /*LISTAR EMPRÉSTIMOS*/                
+                listarEmprestimos();
                 menuEmprestimo();
             break;
             
             case 2: /*RENOVAR EMPRÉSTIMOS*/
-                String codEmp = JOptionPane.showInputDialog("Informe o código do empréstimo");
-                for(Emprestimo e : emprestimos){
-                    if(e.getCodigo().equals(codEmp)){
-                        int attDataEmp = JOptionPane.showConfirmDialog(null, "Atualizar a Data de Devolução?");
-                        if(attDataEmp==0){
-                            e.definirDataDeDevolucao();
-                        }                        
-                    }
-                }
+                renovarEmprestimos();
+                listarEmprestimos();
+                menuEmprestimo();
             break;
             
             case 3: /*EXCLUIR EMPRÉSTIMOS*/
-                Emprestimo excluido = new Emprestimo();
-                int excluirEmp=-1;
-                codEmp = JOptionPane.showInputDialog("Informe o código do empréstimo");
-                for(Emprestimo e : emprestimos){
-                    if(e.getCodigo().equals(codEmp)){
-                        excluirEmp = JOptionPane.showConfirmDialog(null, "Certeza que você deseja excluir esse registro?");
-                        excluido = e;
-                    }
-                }
-                if(excluirEmp==0){
-                    emprestimos.remove(excluido);
-                }
+                excluirEmprestimos();
+                listarEmprestimos();
+                menuEmprestimo();
             break;
             
             case 4: /*VOLTAR*/
@@ -274,77 +123,24 @@ public class TrabalhoFinal {
         
         switch(selected4){
             case 0: /*ADICIONA EXEMPLAR*/
-                String isbn = JOptionPane.showInputDialog("Informe o ISBN");               
-                String titulo = JOptionPane.showInputDialog("Informe o Título");
-                String editora = JOptionPane.showInputDialog("Informe a Editora");
-                String autor = JOptionPane.showInputDialog("Informe o (a) Autor(a)");
-                String idioma = JOptionPane.showInputDialog("Informe idioma");
-                
-                Exemplar exemplar = new Exemplar(isbn, titulo, editora, autor, idioma);
-                
-                exemplares.add(exemplar);
-                
+                addExemplares();
                 menuExemplar();
             
             case 1: /*LISTA EXEMPLAR*/
-                for(Exemplar ex : exemplares){
-                    System.out.println("ISBN: " + ex.getIsbn());
-                    System.out.println("Título: " + ex.getTitulo());
-                    System.out.println("*********************");
-                }
-                System.out.println("-----------------------------");
+                listarExemplares();
                 menuExemplar();
             break;
             
             case 2: /*ATUALIZA EXEMPLAR*/
-                boolean achadoAtualizaExemplar = false;
-                Exemplar exBuscado = new Exemplar();
-                isbn = JOptionPane.showInputDialog("Informe o ISBN do exemplar buscado");
-                
-                for(Exemplar ex : exemplares){
-                    if(ex.getIsbn().equals(isbn)){
-                        achadoAtualizaExemplar = true;
-                        exBuscado = ex;
-                    }
-                }  
-                
-                if(achadoAtualizaExemplar){
-                    isbn = JOptionPane.showInputDialog("Informe o ISBN");               
-                    titulo = JOptionPane.showInputDialog("Informe o Título");
-                    editora = JOptionPane.showInputDialog("Informe a Editora");
-                    autor = JOptionPane.showInputDialog("Informe o (a) Autor(a)");
-                    idioma = JOptionPane.showInputDialog("Informe idioma");
-                    exemplares.remove(achadoAtualizaExemplar);
-                    
-                    Exemplar exemplarAtualizado = new Exemplar(isbn, titulo, editora, autor, idioma);
-                
-                    exemplares.add(exemplarAtualizado);
-
-                    menuExemplar();
-                }
-                else{
-                    JOptionPane.showConfirmDialog(null, "Não foi encontrado exemplar com o ISBN informado");
-                }
+                atualizarExemplares();
+                listarExemplares();
+                menuExemplar();
             break;
             
             case 3: /*EXCLUIR EXEMPLAR*/
-                boolean achadoExemplar = false;
-                Exemplar exRemover = new Exemplar();
-                isbn = JOptionPane.showInputDialog("Informe o ISBN do exemplar que deseja excluir");
-                
-                for(Exemplar ex : exemplares){
-                    if(ex.getIsbn().equals(isbn)){
-                        achadoExemplar = true;
-                        exRemover = ex;
-                    }
-                }       
-                
-                if(achadoExemplar){
-                    exemplares.remove(exRemover);
-                }
-                else{
-                    JOptionPane.showConfirmDialog(null, "Não foi encontrado exemplar com o ISBN informado");
-                }
+                excluirExemplares();
+                listarExemplares();
+                menuExemplar();
             break;
             
             case 4:
@@ -360,89 +156,25 @@ public class TrabalhoFinal {
         
         switch(selected5){
             case 0: /*ADICIONA ALUNO*/
-                
-                int cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF"));               
-                String nome = JOptionPane.showInputDialog("Informe o Nome");
-                String email = JOptionPane.showInputDialog("Informe o E-mail");
-                int tel = Integer.parseInt(JOptionPane.showInputDialog("Informe o Telefone"));
-                String matricula = JOptionPane.showInputDialog("Informe a Matrícula");
-                String curso = JOptionPane.showInputDialog("Informe curso em que está matriculado");
-                String dataNasc = JOptionPane.showInputDialog("Informe a data de nascimento");   
-                
-                Aluno aluno = new Aluno(matricula, curso, dataNasc,cpf, nome, email, tel);
-                
-                alunos.add(aluno);
-                
+                addAlunos();
                 menuAluno();
             break;
 
             
             case 1: /*LISTA ALUNOS*/
-                for(Aluno a : alunos){
-                    System.out.println("CPF: " + a.getCpf());
-                    System.out.println("Nome: " + a.getNome());
-                    System.out.println("*********************");
-                }
-                System.out.println("-----------------------------");
+                listarAlunos();
                 menuAluno();
             break;
             
             case 2: /*ATUALIZA ALUNO*/
-                boolean achadoAtualizaAluno = false;
-                Aluno alunoBuscado = new Aluno();
-                cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF do aluno buscado"));
-                
-                for(Aluno a : alunos){
-                    if(a.getCpf() == cpf){
-                        achadoAtualizaAluno = true;
-                        alunoBuscado = a;
-//                        System.out.println("Registro com esse CPF: ");
-//                        System.out.println("Nome: " + a.getNome());
-                    }
-                }
-                
-                if(achadoAtualizaAluno){
-                    cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF", alunoBuscado.getCpf()));               
-                    nome = JOptionPane.showInputDialog("Informe o Nome", alunoBuscado.getNome());
-                    email = JOptionPane.showInputDialog("Informe o E-mail", alunoBuscado.getEmail());
-                    tel = Integer.parseInt(JOptionPane.showInputDialog("Informe o Telefone", alunoBuscado.getTelefone()));
-                    matricula = JOptionPane.showInputDialog("Informe a Matrícula", alunoBuscado.getMatricula());
-                    curso = JOptionPane.showInputDialog("Informe curso em que está matriculado", alunoBuscado.getCurso());
-                    dataNasc = JOptionPane.showInputDialog("Informe a data de nascimento", alunoBuscado.getDataNasc());   
-
-                    alunos.remove(alunoBuscado);
-                    Aluno alunoAtualizado = new Aluno(matricula, curso, dataNasc,cpf, nome, email, tel);
-
-                    alunos.add(alunoAtualizado);
-                }
-                else{
-                    JOptionPane.showConfirmDialog(null, "Não foi encontrado registro com o CPF informado");
-                }
-                                
+                atualizarAlunos(); 
+                listarAlunos();
                 menuAluno();
             break;
             
             case 3: /*EXCLUI ALUNO*/
-                boolean achado = false;
-                Aluno excluido = new Aluno();
-                
-                cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF buscado")); 
-                
-                for(Aluno a : alunos){
-                    if(a.getCpf() == cpf){
-                        excluido = a;
-                        System.out.println("Nome: " + a.getNome());
-                        achado = true;
-                    }
-                }
-                
-                if(achado){
-                    alunos.remove(excluido);
-                }
-                else{
-                    JOptionPane.showConfirmDialog(null, "Não foi encontrado registro com o CPF informado");
-                }
-                
+                excluirAlunos();
+                listarAlunos();
                 menuAluno();
             break;
             
@@ -458,92 +190,24 @@ public class TrabalhoFinal {
         
         switch(selected6){
             case 0: /*ADICIONA PROFESSOR*/ 
-                int id = Integer.parseInt(JOptionPane.showInputDialog("Informe o ID"));           
-                String nome = JOptionPane.showInputDialog("Informe o Nome");
-                int cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF"));      
-                String email = JOptionPane.showInputDialog("Informe o E-mail");
-                int tel = Integer.parseInt(JOptionPane.showInputDialog("Informe o Telefone"));
-                String pis = JOptionPane.showInputDialog("Informe o PIS");   
-                
-                String status = (String) JOptionPane.showInputDialog(null, "Status do seu cargo como professor",
-                "Qual o status?", JOptionPane.QUESTION_MESSAGE, null, sts, sts[0]);
-                
-                Professor professor = new Professor(id, pis, status, cpf, nome, email, tel);
-                
-                professores.add(professor);
-                
+                addProfessores();
                 menuProfessor();                
             break;
             
             case 1: /*LISTA PROFESSOR*/
-                for(Professor p : professores){
-                    System.out.println("ID: " + p.getId());
-                    System.out.println("Nome: " + p.getNome());
-                    System.out.println("*********************");
-                }
-                System.out.println("-----------------------------");
+                listarProfessores();
                 menuProfessor();
             break;
             
             case 2: /*ATUALIZA PROFESSOR*/
-                boolean achouProfessor = false;
-                Professor professorBuscado = new Professor();
-                id = Integer.parseInt(JOptionPane.showInputDialog("Informe o ID"));  
-                
-                for(Professor p : professores){
-                    if(p.getId() == id){
-                        achouProfessor = true;
-                        professorBuscado = p;
-                        System.out.println("Registro com esse ID: ");
-                        System.out.println("Nome: " + p.getNome());
-                    }
-                }
-                
-                if(achouProfessor){
-                    id = Integer.parseInt(JOptionPane.showInputDialog("Informe o ID", professorBuscado.getId()));  
-                    cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF", professorBuscado.getCpf()));               
-                    nome = JOptionPane.showInputDialog("Informe o Nome", professorBuscado.getNome());
-                    email = JOptionPane.showInputDialog("Informe o E-mail", professorBuscado.getEmail());
-                    tel = Integer.parseInt(JOptionPane.showInputDialog("Informe o Telefone", professorBuscado.getTelefone()));
-                    pis = JOptionPane.showInputDialog("Informe o PIS", professorBuscado.getPis());   
-
-                    status = (String) JOptionPane.showInputDialog(null, "Status do seu cargo como professor",
-                    "Qual o status?", JOptionPane.QUESTION_MESSAGE, null, sts, sts[0]);
-
-                    professores.remove(professorBuscado);
-
-                    Professor professorAtualizado = new Professor(id, pis, status, cpf, nome, email, tel);
-
-                    professores.add(professorAtualizado);
-                }                
-                else{
-                    JOptionPane.showConfirmDialog(null, "Não foi encontrado registro com o ID informado");
-                }
-                
+                atulizarProfessores();
+                listarProfessores();
                 menuProfessor();
             break;
             
-            case 3: /*EXCLUI PROFESSOR*/                
-                boolean achado = false;
-                Professor excluido = new Professor();
-                
-                id = Integer.parseInt(JOptionPane.showInputDialog("Informe o ID do professor buscado")); 
-                
-                for(Professor p : professores){
-                    if(p.getId() == id){
-                        excluido = p;
-                        System.out.println("Nome: " + p.getNome());
-                        achado = true;
-                    }
-                }
-                
-                if(achado){
-                    professores.remove(excluido);
-                }
-                else{
-                    JOptionPane.showConfirmDialog(null, "Não foi encontrado registro com o ID informado");
-                }
-                
+            case 3: /*EXCLUI PROFESSOR*/               
+                excluirProfessores();
+                listarProfessores();
                 menuProfessor();
             break;
             
@@ -559,91 +223,24 @@ public class TrabalhoFinal {
         
         switch(selected7){
             case 0: /*ADICIONA FUNCIONÁRIO*/ 
-                String pis = JOptionPane.showInputDialog("Informe o PIS");            
-                String nome = JOptionPane.showInputDialog("Informe o Nome");
-                int cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF"));      
-                String email = JOptionPane.showInputDialog("Informe o E-mail");
-                int tel = Integer.parseInt(JOptionPane.showInputDialog("Informe o Telefone"));
-                String departamento = (String) JOptionPane.showInputDialog(null, "Departamento",
-                "Qual o seu departamento?", JOptionPane.QUESTION_MESSAGE, null, depts, depts[0]);
-                String cargo = JOptionPane.showInputDialog("Informe o seu cargo");
-                
-                Funcionario funcionario = new Funcionario(departamento, pis, cargo, cpf, nome, email, tel);
-                funcionario.definirHorario();
-                
-                funcionarios.add(funcionario);
-                
+                addFuncionarios();
                 menuFuncionario();
             break;
             
             case 1: /*LISTA FUNCIONÁRIO*/
-                for(Funcionario f : funcionarios){
-                    System.out.println("PIS: " + f.getPis());
-                    System.out.println("Nome: " + f.getNome());
-                    System.out.println("*********************");
-                }
-                System.out.println("-----------------------------");
+                listarFuncionarios();
                 menuFuncionario();
             break;
             
             case 2: /*ATUALIZA FUNCIONÁRIO*/
-                boolean achouFuncionario = false;
-                Funcionario funcionarioBuscado = new Funcionario();
-                pis = JOptionPane.showInputDialog("Informe o PIS");  
-                
-                for(Funcionario f : funcionarios){
-                    if(f.getPis().equals(pis)){
-                        achouFuncionario = true;
-                        funcionarioBuscado = f;
-                        System.out.println("Registro com esse ID: ");
-                        System.out.println("Nome: " + f.getNome());
-                    }
-                }
-                
-                if(achouFuncionario){
-                    pis = JOptionPane.showInputDialog("Informe o PIS", funcionarioBuscado.getPis());            
-                    nome = JOptionPane.showInputDialog("Informe o Nome", funcionarioBuscado.getNome());
-                    cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF", funcionarioBuscado.getCpf()));      
-                    email = JOptionPane.showInputDialog("Informe o E-mail", funcionarioBuscado.getEmail());
-                    tel = Integer.parseInt(JOptionPane.showInputDialog("Informe o Telefone", funcionarioBuscado.getTelefone()));
-                    departamento = (String) JOptionPane.showInputDialog(null, "Departamento",
-                    "Qual o seu departamento?", JOptionPane.QUESTION_MESSAGE, null, depts, funcionarioBuscado.getDepartamento());
-                    cargo = JOptionPane.showInputDialog("Informe o seu cargo");
-                
-                    funcionarios.remove(funcionarioBuscado);
-
-                    Funcionario funcionarioAtualizado = new Funcionario(departamento, pis, cargo, cpf, nome, email, tel);
-
-                    funcionarios.add(funcionarioAtualizado);
-                }                
-                else{
-                    JOptionPane.showConfirmDialog(null, "Não foi encontrado registro com o PIS informado");
-                }
-                
+                atualizarFuncionarios();
+                listarFuncionarios();
                 menuFuncionario();
             break;
             
             case 3: /*EXCLUI FUNCIONÁRIO*/                
-                boolean achado = false;
-                Funcionario excluido = new Funcionario();
-                
-                pis = JOptionPane.showInputDialog("Informe o PIS do funcionario buscado"); 
-                
-                for(Funcionario f : funcionarios){
-                    if(f.getPis().equals(pis)){
-                        excluido = f;
-                        System.out.println("Nome: " + f.getNome());
-                        achado = true;
-                    }
-                }
-                
-                if(achado){
-                    funcionarios.remove(excluido);
-                }
-                else{
-                    JOptionPane.showConfirmDialog(null, "Não foi encontrado registro com o PIS informado");
-                }
-                
+                excluirFuncionarios();
+                listarFuncionarios();
                 menuFuncionario();
             break;
             
@@ -655,8 +252,7 @@ public class TrabalhoFinal {
     
     public static void menuDevolucao(){
         Emprestimo devolucao = new Emprestimo();
-        devolucao.devolverLivros();
-        
+        devolucao.devolverLivros();        
     }
     
     public static Aluno alunosEmprestimo(){
@@ -742,5 +338,517 @@ public class TrabalhoFinal {
             JOptionPane.showConfirmDialog(null, "Não foi achado um exemplar com esse ISBN");
         }
         return exemplarBuscado;
+    }
+    
+    public static void fazerEmprestimo(){
+        Aluno alunoAchado = new Aluno();
+        Exemplar exemplarAchado = new Exemplar();
+        Professor professorAchado = new Professor();
+        Funcionario funcAchado = new Funcionario();
+        int qtdExemplares = 0;
+        String quemEstaFazendoEmp = (String) JOptionPane.showInputDialog(null, "Qual a classificação da pessoa",
+        "Qual o status?", JOptionPane.QUESTION_MESSAGE, null, quemE, quemE[0]);
+
+        String codigo = codigoTxt + cod;
+        cod++;
+        LocalDate dataEmprestimo = LocalDate.now();
+
+        if(quemEstaFazendoEmp.equals("Aluno")){                    
+            alunoAchado = alunosEmprestimo();
+            exemplarAchado = buscaExemplar();   
+
+            Emprestimo emprestAluno = new Emprestimo();
+            emprestAluno.setCodigo(codigo);
+            emprestAluno.setDataEmprestimo(dataEmprestimo);
+            emprestAluno.definirDataDeDevolucao();
+            emprestAluno.setQuemEmprestou(alunoAchado);
+            emprestAluno.addExemplar(exemplarAchado);
+
+            emprestimos.add(emprestAluno);
+            exemplares.remove(exemplarAchado);
+
+            qtdExemplares++;
+
+            int multExemplares = JOptionPane.showConfirmDialog(null, "Adicionar mais algum exemplar?");
+
+            while(qtdExemplares<3){
+                if(multExemplares == 0){
+                    exemplarAchado = buscaExemplar();
+                    emprestAluno.addExemplar(exemplarAchado);
+                    qtdExemplares++;
+                    multExemplares = JOptionPane.showConfirmDialog(null, "Adicionar mais algum exemplar?");
+                }
+                else{
+                    break;
+                }
+            }
+
+            if(qtdExemplares==3){
+                JOptionPane.showConfirmDialog(null, "O número máximo de exemplares por empréstimo é 3");
+            }
+        }
+
+        else if(quemEstaFazendoEmp.equals("Professor")){
+            professorAchado = professoresEmprestimo();
+            exemplarAchado = buscaExemplar();
+
+            Emprestimo emprestProf = new Emprestimo();
+            emprestProf.setCodigo(codigo);
+            emprestProf.setDataEmprestimo(dataEmprestimo);
+            emprestProf.definirDataDeDevolucao();
+            emprestProf.setQuemEmprestou(professorAchado);
+            emprestProf.addExemplar(exemplarAchado);
+
+            emprestimos.add(emprestProf);
+            exemplares.remove(exemplarAchado);
+
+            qtdExemplares++;
+
+            int multExemplares = JOptionPane.showConfirmDialog(null, "Adicionar mais algum exemplar?");
+
+            while(qtdExemplares<3){
+                if(multExemplares == 0){
+                    exemplarAchado = buscaExemplar();
+                    emprestProf.addExemplar(exemplarAchado);
+                    qtdExemplares++;
+                    multExemplares = JOptionPane.showConfirmDialog(null, "Adicionar mais algum exemplar?");
+                }
+                else{
+                    break;
+                }
+            }
+
+            if(qtdExemplares==3){
+                JOptionPane.showConfirmDialog(null, "O número máximo de exemplares por empréstimo é 3");
+            }
+        }
+        else{
+            funcAchado = funcionariosEmprestimo();
+            exemplarAchado = buscaExemplar();
+
+            Emprestimo emprestFunc = new Emprestimo();
+            emprestFunc.setCodigo(codigo);
+            emprestFunc.setDataEmprestimo(dataEmprestimo);
+            emprestFunc.definirDataDeDevolucao();
+            emprestFunc.setQuemEmprestou(funcAchado);
+            emprestFunc.addExemplar(exemplarAchado);
+
+            emprestimos.add(emprestFunc);
+            exemplares.remove(exemplarAchado);
+
+            qtdExemplares++;
+
+            int multExemplares = JOptionPane.showConfirmDialog(null, "Adicionar mais algum exemplar?");
+
+            while(qtdExemplares<3){
+                if(multExemplares == 0){
+                    exemplarAchado = buscaExemplar();
+                    emprestFunc.addExemplar(exemplarAchado);
+                    qtdExemplares++;
+                    multExemplares = JOptionPane.showConfirmDialog(null, "Adicionar mais algum exemplar?");
+                }
+                else{
+                    break;
+                }
+            }
+
+            if(qtdExemplares==3){
+                JOptionPane.showConfirmDialog(null, "O número máximo de exemplares por empréstimo é 3");
+            }
+
+        }
+    }
+    
+    public static void listarEmprestimos(){
+        System.out.println("***************** Lista de Empréstimos *****************");
+        for(Emprestimo emp : emprestimos){
+            System.out.println("Código: " + emp.getCodigo());
+            System.out.println("Nome: " + emp.getQuemEmprestou().getNome());
+            System.out.println("Data do Empréstimo: " + emp.getDataEmprestimo());
+            System.out.println("Data da Devolução: " + emp.getDataDevolucao());
+            System.out.println("Exemplar(es): ");
+            for(Exemplar e : emp.getLivros()){
+                System.out.println(e.getTitulo());
+            }
+            System.out.println("-------------------------------------------------");
+        }
+        System.out.println("********************************************************");
+    }
+    
+    public static void renovarEmprestimos(){
+        String codEmp = JOptionPane.showInputDialog("Informe o código do empréstimo");
+        for(Emprestimo e : emprestimos){
+            if(e.getCodigo().equals(codEmp)){
+                int attDataEmp = JOptionPane.showConfirmDialog(null, "Atualizar a Data de Devolução?");
+                if(attDataEmp==0){
+                    e.definirDataDeDevolucao();
+                }                        
+            }
+        }
+    }
+    
+    public static void excluirEmprestimos(){
+        Emprestimo excluido = new Emprestimo();
+        int excluirEmp=-1;
+        String codEmp = JOptionPane.showInputDialog("Informe o código do empréstimo");
+        for(Emprestimo e : emprestimos){
+            if(e.getCodigo().equals(codEmp)){
+                excluirEmp = JOptionPane.showConfirmDialog(null, "Certeza que você deseja excluir esse registro?");
+                excluido = e;
+            }
+        }
+        
+        if(excluirEmp==0){
+            emprestimos.remove(excluido);
+        }
+    }
+    
+    public static void addExemplares(){
+        String isbn = JOptionPane.showInputDialog("Informe o ISBN");               
+        String titulo = JOptionPane.showInputDialog("Informe o Título");
+        String editora = JOptionPane.showInputDialog("Informe a Editora");
+        String autor = JOptionPane.showInputDialog("Informe o (a) Autor(a)");
+        String idioma = JOptionPane.showInputDialog("Informe idioma");
+
+        Exemplar exemplar = new Exemplar(isbn, titulo, editora, autor, idioma);
+
+        exemplares.add(exemplar);                
+    }
+    
+    public static void listarExemplares(){
+        System.out.println("**************** Lista de Exemplares (\"****************");
+        for(Exemplar ex : exemplares){
+            System.out.println("\tISBN: " + ex.getIsbn());
+            System.out.println("\tTítulo: " + ex.getTitulo());
+            System.out.println("\tAutor(a)" + ex.getAutor());
+            System.out.println("\tEditora: " + ex.getEditora());
+            System.out.println("\tIdioma: " + ex.getIdioma());
+            System.out.println("-------------------------");
+        }
+        System.out.println("********************************************************");
+    }
+    
+    public static void atualizarExemplares(){
+        boolean achadoAtualizaExemplar = false;
+        Exemplar exBuscado = new Exemplar();
+        String isbn = JOptionPane.showInputDialog("Informe o ISBN do exemplar buscado");
+
+        for(Exemplar ex : exemplares){
+            if(ex.getIsbn().equals(isbn)){
+                achadoAtualizaExemplar = true;
+                exBuscado = ex;
+            }
+        }  
+
+        if(achadoAtualizaExemplar){
+            isbn = JOptionPane.showInputDialog("Informe o ISBN");               
+            String titulo = JOptionPane.showInputDialog("Informe o Título");
+            String editora = JOptionPane.showInputDialog("Informe a Editora");
+            String autor = JOptionPane.showInputDialog("Informe o (a) Autor(a)");
+            String idioma = JOptionPane.showInputDialog("Informe idioma");
+
+            exemplares.remove(exBuscado);
+
+            Exemplar exemplarAtualizado = new Exemplar(isbn, titulo, editora, autor, idioma);
+
+            exemplares.add(exemplarAtualizado);
+
+            menuExemplar();
+        }
+        else{
+            JOptionPane.showConfirmDialog(null, "Não foi encontrado exemplar com o ISBN informado");
+        }
+    }
+    
+    public static void excluirExemplares(){
+        boolean achadoExemplar = false;
+        Exemplar exRemover = new Exemplar();
+        String isbn = JOptionPane.showInputDialog("Informe o ISBN do exemplar que deseja excluir");
+        int excluirEmp=-1;
+        
+        for(Exemplar ex : exemplares){
+            if(ex.getIsbn().equals(isbn)){
+                excluirEmp = JOptionPane.showConfirmDialog(null, "Certeza que você deseja excluir esse registro?");
+                achadoExemplar = true;
+                exRemover = ex;
+            }
+        }       
+
+        if(achadoExemplar){
+            if(excluirEmp==0){
+                exemplares.remove(exRemover);
+            }            
+        }
+        else{
+            JOptionPane.showConfirmDialog(null, "Não foi encontrado exemplar com o ISBN informado");
+        }
+    }
+    
+    public static void addAlunos(){        
+        int cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF"));               
+        String nome = JOptionPane.showInputDialog("Informe o Nome");
+        String email = JOptionPane.showInputDialog("Informe o E-mail");
+        int tel = Integer.parseInt(JOptionPane.showInputDialog("Informe o Telefone"));
+        String matricula = JOptionPane.showInputDialog("Informe a Matrícula");
+        String curso = JOptionPane.showInputDialog("Informe curso em que está matriculado");
+        String dataNasc = JOptionPane.showInputDialog("Informe a data de nascimento");   
+
+        Aluno aluno = new Aluno(matricula, curso, dataNasc,cpf, nome, email, tel);
+
+        alunos.add(aluno);
+    }
+    
+    public static void atualizarAlunos(){
+        boolean achadoAtualizaAluno = false;
+        Aluno alunoBuscado = new Aluno();
+        int cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF do aluno buscado"));
+
+        for(Aluno a : alunos){
+            if(a.getCpf() == cpf){
+                achadoAtualizaAluno = true;
+                alunoBuscado = a;
+            }
+        }
+
+        if(achadoAtualizaAluno){
+            cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF", alunoBuscado.getCpf()));               
+            String nome = JOptionPane.showInputDialog("Informe o Nome", alunoBuscado.getNome());
+            String email = JOptionPane.showInputDialog("Informe o E-mail", alunoBuscado.getEmail());
+            int tel = Integer.parseInt(JOptionPane.showInputDialog("Informe o Telefone", alunoBuscado.getTelefone()));
+            String matricula = JOptionPane.showInputDialog("Informe a Matrícula", alunoBuscado.getMatricula());
+            String curso = JOptionPane.showInputDialog("Informe curso em que está matriculado", alunoBuscado.getCurso());
+            String dataNasc = JOptionPane.showInputDialog("Informe a data de nascimento", alunoBuscado.getDataNasc());   
+
+            alunos.remove(alunoBuscado);
+            Aluno alunoAtualizado = new Aluno(matricula, curso, dataNasc,cpf, nome, email, tel);
+
+            alunos.add(alunoAtualizado);
+        }
+        else{
+            JOptionPane.showConfirmDialog(null, "Não foi encontrado registro com o CPF informado");
+        }
+    }
+    
+    public static void listarAlunos(){
+        System.out.println("***************** Lista de Alunos *****************");
+        for(Aluno a : alunos){
+            System.out.println("\tCPF: " + a.getCpf());
+            System.out.println("\tNome: " + a.getNome());
+            System.out.println("\tMatrítcula: " + a.getMatricula());
+            System.out.println("\tCurso: " + a.getCurso());
+            System.out.println("\tData de Nascimento: " + a.getDataNasc());
+            System.out.println("\tE-mail: " + a.getEmail());
+            System.out.println("\tTelefone: " + a.getTelefone());
+            System.out.println("-------------------------------------------");
+        }
+        System.out.println("***************************************************");
+    }
+    
+    public static void excluirAlunos(){
+        boolean achado = false;
+        Aluno excluido = new Aluno();
+
+        int cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF buscado")); 
+        int excluirAluno = -1;
+        for(Aluno a : alunos){
+            if(a.getCpf() == cpf){
+                excluirAluno = JOptionPane.showConfirmDialog(null, "Certeza que você deseja excluir esse registro?");
+                excluido = a;
+                achado = true;
+            }
+        }
+
+        if(achado){
+            if(excluirAluno==0){
+                alunos.remove(excluido);
+            }            
+        }
+        else{
+            JOptionPane.showConfirmDialog(null, "Não foi encontrado registro com o CPF informado");
+        }
+    }
+    
+    public static void addProfessores(){
+        int id = Integer.parseInt(JOptionPane.showInputDialog("Informe o ID"));           
+        String nome = JOptionPane.showInputDialog("Informe o Nome");
+        int cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF"));      
+        String email = JOptionPane.showInputDialog("Informe o E-mail");
+        int tel = Integer.parseInt(JOptionPane.showInputDialog("Informe o Telefone"));
+        String pis = JOptionPane.showInputDialog("Informe o PIS");   
+
+        String status = (String) JOptionPane.showInputDialog(null, "Status do seu cargo como professor",
+        "Qual o status?", JOptionPane.QUESTION_MESSAGE, null, sts, sts[0]);
+
+        Professor professor = new Professor(id, pis, status, cpf, nome, email, tel);
+
+        professores.add(professor);                
+    }
+    
+    public static void listarProfessores(){
+        System.out.println("****************** Lista de Professores ******************");
+        for(Professor p : professores){
+            System.out.println("\tID: " + p.getId());
+            System.out.println("\tNome: " + p.getNome());
+            System.out.println("\tCPF: " + p.getCpf());
+            System.out.println("\tPIS: " + p.getPis());
+            System.out.println("\tE-mail: " + p.getEmail());
+            System.out.println("\tTelefone: " + p.getTelefone());
+            System.out.println("\tStatus: " + p.getStatus());
+            System.out.println("------------------------------------------");
+        }
+        System.out.println("**********************************************************");
+    }
+    
+    public static void atulizarProfessores(){
+        boolean achouProfessor = false;
+        Professor professorBuscado = new Professor();
+        int id = Integer.parseInt(JOptionPane.showInputDialog("Informe o ID"));  
+
+        for(Professor p : professores){
+            if(p.getId() == id){
+                achouProfessor = true;
+                professorBuscado = p;
+                System.out.println("Registro com esse ID: ");
+                System.out.println("Nome: " + p.getNome());
+            }
+        }
+
+        if(achouProfessor){
+            id = Integer.parseInt(JOptionPane.showInputDialog("Informe o ID", professorBuscado.getId()));  
+            int cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF", professorBuscado.getCpf()));               
+            String nome = JOptionPane.showInputDialog("Informe o Nome", professorBuscado.getNome());
+            String email = JOptionPane.showInputDialog("Informe o E-mail", professorBuscado.getEmail());
+            int tel = Integer.parseInt(JOptionPane.showInputDialog("Informe o Telefone", professorBuscado.getTelefone()));
+            String pis = JOptionPane.showInputDialog("Informe o PIS", professorBuscado.getPis());   
+
+            String status = (String) JOptionPane.showInputDialog(null, "Status do seu cargo como professor",
+            "Qual o status?", JOptionPane.QUESTION_MESSAGE, null, sts, sts[0]);
+
+            professores.remove(professorBuscado);
+
+            Professor professorAtualizado = new Professor(id, pis, status, cpf, nome, email, tel);
+
+            professores.add(professorAtualizado);
+        }                
+        else{
+            JOptionPane.showConfirmDialog(null, "Não foi encontrado registro com o ID informado");
+        }
+    }
+    
+    public static void excluirProfessores(){
+        boolean achado = false;
+        Professor excluido = new Professor();
+
+        int id = Integer.parseInt(JOptionPane.showInputDialog("Informe o ID do professor buscado")); 
+        int excluirProf = -1;
+        for(Professor p : professores){
+            if(p.getId() == id){
+                excluirProf = JOptionPane.showConfirmDialog(null, "Certeza que você deseja excluir esse registro?");
+                excluido = p;
+                achado = true;
+            }
+        }
+
+        if(achado){
+            if(excluirProf==0){
+                professores.remove(excluido);
+            }            
+        }
+        else{
+            JOptionPane.showConfirmDialog(null, "Não foi encontrado registro com o ID informado");
+        }
+    }
+    
+    public static void addFuncionarios(){
+        String pis = JOptionPane.showInputDialog("Informe o PIS");            
+        String nome = JOptionPane.showInputDialog("Informe o Nome");
+        int cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF"));      
+        String email = JOptionPane.showInputDialog("Informe o E-mail");
+        int tel = Integer.parseInt(JOptionPane.showInputDialog("Informe o Telefone"));
+        String departamento = (String) JOptionPane.showInputDialog(null, "Departamento",
+        "Qual o seu departamento?", JOptionPane.QUESTION_MESSAGE, null, depts, depts[0]);
+        String cargo = JOptionPane.showInputDialog("Informe o seu cargo");
+
+        Funcionario funcionario = new Funcionario(departamento, pis, cargo, cpf, nome, email, tel);
+        funcionario.definirHorario();
+
+        funcionarios.add(funcionario);
+    }
+    
+    public static void listarFuncionarios(){
+        System.out.println("********************** Lista de Funcionarios **********************");
+        for(Funcionario f : funcionarios){
+            System.out.println("\tPIS: " + f.getPis());
+            System.out.println("\tNome: " + f.getNome());
+            System.out.println("\tCPF: " + f.getCpf());
+            System.out.println("\tE-mail: " + f.getEmail());
+            System.out.println("\tTelefone: " + f.getTelefone());
+            System.out.println("\tDepartamento: " + f.getDepartamento());
+            System.out.println("\tHora de Entrada: " + f.getEntrada());
+            System.out.println("\tHora de Saída: " + f.getSaida());
+            System.out.println("-----------------------------------------------");
+        }
+        System.out.println("********************************************************************");
+    }
+    
+    public static void atualizarFuncionarios(){
+        boolean achouFuncionario = false;
+        Funcionario funcionarioBuscado = new Funcionario();
+        String pis = JOptionPane.showInputDialog("Informe o PIS");  
+
+        for(Funcionario f : funcionarios){
+            if(f.getPis().equals(pis)){
+                achouFuncionario = true;
+                funcionarioBuscado = f;
+                System.out.println("Registro com esse ID: ");
+                System.out.println("Nome: " + f.getNome());
+            }
+        }
+
+        if(achouFuncionario){
+            pis = JOptionPane.showInputDialog("Informe o PIS", funcionarioBuscado.getPis());            
+            String nome = JOptionPane.showInputDialog("Informe o Nome", funcionarioBuscado.getNome());
+            int cpf = Integer.parseInt(JOptionPane.showInputDialog("Informe o CPF", funcionarioBuscado.getCpf()));      
+            String email = JOptionPane.showInputDialog("Informe o E-mail", funcionarioBuscado.getEmail());
+            int tel = Integer.parseInt(JOptionPane.showInputDialog("Informe o Telefone", funcionarioBuscado.getTelefone()));
+            String departamento = (String) JOptionPane.showInputDialog(null, "Departamento",
+            "Qual o seu departamento?", JOptionPane.QUESTION_MESSAGE, null, depts, funcionarioBuscado.getDepartamento());
+            String cargo = JOptionPane.showInputDialog("Informe o seu cargo");
+            
+            funcionarios.remove(funcionarioBuscado);
+
+            Funcionario funcionarioAtualizado = new Funcionario(departamento, pis, cargo, cpf, nome, email, tel);
+            funcionarioAtualizado.definirHorario();
+            
+            funcionarios.add(funcionarioAtualizado);
+        }                
+        else{
+            JOptionPane.showConfirmDialog(null, "Não foi encontrado registro com o PIS informado");
+        }
+    }
+    
+    public static void excluirFuncionarios(){
+        boolean achado = false;
+        Funcionario excluido = new Funcionario();
+
+        String pis = JOptionPane.showInputDialog("Informe o PIS do funcionario buscado"); 
+        int excluirFunc = -1;
+        
+        for(Funcionario f : funcionarios){
+            if(f.getPis().equals(pis)){
+                excluirFunc = JOptionPane.showConfirmDialog(null, "Certeza que você deseja excluir esse registro?");
+                excluido = f;
+                achado = true;
+            }
+        }
+
+        if(achado){
+            if(excluirFunc==0){
+                funcionarios.remove(excluido);
+            }
+        }
+        else{
+            JOptionPane.showConfirmDialog(null, "Não foi encontrado registro com o PIS informado");
+        }                
     }
 }
