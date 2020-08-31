@@ -1,4 +1,8 @@
 package trabalhofinal;
+
+import java.sql.Time;
+import javax.swing.JOptionPane;
+
 /**
  * @author nayfr
  */
@@ -6,6 +10,8 @@ public class Funcionario extends Pessoa implements HorarioDeTrabalho{
     private String departamento;
     private String pis; /*Código da carteira de trabalho*/
     private String cargo;
+    private String entrada;
+    private String saida;
 
     public Funcionario() {
     }
@@ -39,6 +45,27 @@ public class Funcionario extends Pessoa implements HorarioDeTrabalho{
 
     public void setCargo(String cargo) {
         this.cargo = cargo;
+    }
+
+    public String getEntrada() {
+        return entrada;
+    }
+
+    public void setEntrada(String entrada) {
+        this.entrada = entrada;
+    }
+
+    public String getSaida() {
+        return saida;
+    }
+
+    public void setSaida(String saida) {
+        this.saida = saida;
+    }
+    
+    public void mostraHorarioTrabalho(){
+        System.out.println("Horário de Entrada: " + this.entrada);
+        System.out.println("Horário de Saída: " + this.saida);
     }
 
     @Override
@@ -85,12 +112,16 @@ public class Funcionario extends Pessoa implements HorarioDeTrabalho{
     public int getCpf() {
         return super.getCpf(); //To change body of generated methods, choose Tools | Templates.
     }
-    
-    
 
     @Override
     public void definirHorario() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String entrada = JOptionPane.showInputDialog("Informe seu horário de entrada");
+        String saida = JOptionPane.showInputDialog("Informe seu horário de saída");
+        
+        setEntrada(entrada);
+        setSaida(saida);
     }
+    
+    
     
 }
