@@ -16,23 +16,24 @@ import javax.swing.ListModel;
  */
 public class TrabalhoFinal {
     
+    /*LISTAS DOS ELEMENTOS PRINCIPAIS DO PROJETO*/
     static ArrayList<Aluno> alunos = new ArrayList<>();
     static ArrayList<Funcionario> funcionarios = new ArrayList<>();
-    static ArrayList<Professor> professores = new ArrayList<>();
-    
+    static ArrayList<Professor> professores = new ArrayList<>();    
     static ArrayList<Exemplar> exemplares = new ArrayList<>();
     static ArrayList<Emprestimo> emprestimos = new ArrayList<>();
     
+    /*ARRAYS USADOS NOS JOPTIONPANE'S DOS MENUS*/
     static String[] op2 = {"Adicionar", "Listar", "Atualizar", "Excluir", "Voltar"};
     static String[] sts = {"Contratado", "Substituto"};
     static String[] depts = {"Administrativo", "Comunicação", "Gestão de Pessoas", "Limpeza/Cozinha", "Financeiro"};
     static String[] quemE = {"Aluno", "Professor", "Funcionario"};
     
+    /*VARIÁVEIS UTILIZADAS NO CÓDIGO DO EMPRÉSTIMO*/
     static String codigoTxt = "EMP2020000";
     static int cod;
         
-    public static void main(String[] args)  {
-        
+    public static void main(String[] args)  {        
         menuPrincipal();
     }
     
@@ -233,12 +234,31 @@ public class TrabalhoFinal {
                 menuEmprestimo();
             break;
             
-            case 2: /*ATUALIZAR EMPRÉSTIMOS*/
-                
+            case 2: /*RENOVAR EMPRÉSTIMOS*/
+                String codEmp = JOptionPane.showInputDialog("Informe o código do empréstimo");
+                for(Emprestimo e : emprestimos){
+                    if(e.getCodigo().equals(codEmp)){
+                        int attDataEmp = JOptionPane.showConfirmDialog(null, "Atualizar a Data de Devolução?");
+                        if(attDataEmp==0){
+                            e.definirDataDeDevolucao();
+                        }                        
+                    }
+                }
             break;
             
             case 3: /*EXCLUIR EMPRÉSTIMOS*/
-                
+                Emprestimo excluido = new Emprestimo();
+                int excluirEmp=-1;
+                codEmp = JOptionPane.showInputDialog("Informe o código do empréstimo");
+                for(Emprestimo e : emprestimos){
+                    if(e.getCodigo().equals(codEmp)){
+                        excluirEmp = JOptionPane.showConfirmDialog(null, "Certeza que você deseja excluir esse registro?");
+                        excluido = e;
+                    }
+                }
+                if(excluirEmp==0){
+                    emprestimos.remove(excluido);
+                }
             break;
             
             case 4: /*VOLTAR*/
