@@ -1,7 +1,9 @@
 package trabalhofinal;
 
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.Period;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JOptionPane;
@@ -125,6 +127,18 @@ public class Emprestimo implements IEmprestimo{
                     for(Exemplar emprestado : emp.livros){
                         if(emprestado.getIsbn().equals(isbnBuscado)){
                             devolvido = emprestado;
+                            
+                            LocalDate dataAtual = LocalDate.now();
+                            
+                            long diasComoExemplar = ChronoUnit.DAYS.between(emp.getDataEmprestimo(), dataAtual);
+                            
+                            /*VERIFICO SE A PESSOA PASSOU DO PRAZO DE DEVOLUÇÃO*/
+                            if(diasComoExemplar>5){
+                                JOptionPane.showConfirmDialog(null, "A devolução está atrasada");
+                            }
+                            else{
+                                JOptionPane.showConfirmDialog(null, "A devolução foi feita dentro do prazo");
+                            }
                         }
                     }
                     emp.livros.remove(devolvido);
