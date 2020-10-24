@@ -635,21 +635,8 @@ public class TrabalhoFinal {
     
     public static void menuDevolucao(){
         Emprestimo devolucao = new Emprestimo();
-        
-        String quemEstaFazendoEmp = (String) JOptionPane.showInputDialog(null, "Qual a classificação da pessoa",
-                "Qual o status?", JOptionPane.QUESTION_MESSAGE, null, quemE, quemE[0]);
-        
-        if(quemEstaFazendoEmp.equals("Aluno")){
-            Aluno alunoDevolvendo = new Aluno();
-            String matriculaDevolmendo = JOptionPane.showInputDialog("Matrícula do Aluno");
-            for(Aluno devolvendo : alunos){
-                if(matriculaDevolmendo.equals(devolvendo.getMatricula())){
-                    alunoDevolvendo = devolvendo;
-                }
-            }            
-        }
-        
         devolucao.devolverLivros();
+        
     }
     
     public static Aluno alunosEmprestimo(){
